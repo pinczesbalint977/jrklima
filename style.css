@@ -34,7 +34,12 @@ body {
   width: 100%;
   z-index: 1000;
   padding-top: env(safe-area-inset-top);
-  background: transparent;
+}
+
+nav{
+
+  background: rgba(1, 27, 82, 0.45);
+  backdrop-filter: blur(10px);
 }
 
 /* ===== FŐ KONTAINER ===== */
@@ -201,8 +206,15 @@ body {
   }
 
     .logo img {
-    margin-top: 40px;
     width: 115px;
+  }
+
+  nav{
+
+    height: 115px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 
@@ -216,8 +228,16 @@ body {
     padding-inline: 140px;
   }
 
+    nav{
+
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   .logo img {
-    margin-top: 40px;
+
     width: 130px;
   }
 
@@ -240,8 +260,16 @@ body {
     padding-inline: 180px;
   }
 
+    nav{
+
+    height: 175px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   .logo img {
-    margin-top: 40px;
+
     width: 160px;
   }
 
