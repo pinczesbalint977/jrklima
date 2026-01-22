@@ -4656,7 +4656,341 @@ a{
   }
 }
 
+/* ================= LARGE SCREENS - ARÁNYOS NÖVELÉS ================= */
 
+/* 1920x1080 (Full HD) */
+@media (min-width: 1920px) {
+  .cookie-banner {
+    max-width: 900px;
+    bottom: 32px;
+  }
+  
+  .cookie-card {
+    padding: 28px 34px;
+    border-radius: 22px;
+  }
+  
+  .cookie-card p {
+    font-size: 1.15rem;
+    line-height: 1.7;
+  }
+  
+  .cookie-list li {
+    font-size: 1.15rem;
+    padding-left: 28px;
+    margin-bottom: 14px;
+  }
+  
+  .cookie-list li::before {
+    font-size: 1.2rem;
+  }
+  
+  .cookie-buttons {
+    margin-top: 24px;
+    gap: 18px;
+  }
+  
+  .cookie-buttons button {
+    padding: 14px 32px;
+    font-size: 1.15rem;
+    border-radius: 999px;
+  }
+  
+  .cookie-card::before {
+    padding: 2.5px;
+  }
+}
+
+/* 2560x1440 (2K) */
+@media (min-width: 2560px) {
+  .cookie-banner {
+    max-width: 1100px;
+    bottom: 40px;
+  }
+  
+  .cookie-card {
+    padding: 34px 42px;
+    border-radius: 26px;
+  }
+  
+  .cookie-card p {
+    font-size: 1.3rem;
+    line-height: 1.8;
+  }
+  
+  .cookie-list li {
+    font-size: 1.3rem;
+    padding-left: 34px;
+    margin-bottom: 16px;
+  }
+  
+  .cookie-list li::before {
+    font-size: 1.4rem;
+  }
+  
+  .cookie-buttons {
+    margin-top: 28px;
+    gap: 22px;
+  }
+  
+  .cookie-buttons button {
+    padding: 16px 38px;
+    font-size: 1.3rem;
+    border-radius: 999px;
+  }
+  
+  .cookie-card::before {
+    padding: 3px;
+  }
+}
+
+/* 3440x1440 (UltraWide) */
+@media (min-width: 3440px) {
+  .cookie-banner {
+    max-width: 1300px;
+    bottom: 48px;
+  }
+  
+  .cookie-card {
+    padding: 40px 50px;
+    border-radius: 30px;
+  }
+  
+  .cookie-card p {
+    font-size: 1.5rem;
+    line-height: 1.9;
+  }
+  
+  .cookie-list li {
+    font-size: 1.5rem;
+    padding-left: 40px;
+    margin-bottom: 18px;
+  }
+  
+  .cookie-list li::before {
+    font-size: 1.6rem;
+  }
+  
+  .cookie-buttons {
+    margin-top: 32px;
+    gap: 26px;
+  }
+  
+  .cookie-buttons button {
+    padding: 18px 44px;
+    font-size: 1.5rem;
+    border-radius: 999px;
+  }
+  
+  .cookie-card::before {
+    padding: 3.5px;
+  }
+  
+  .cookie-accept {
+    box-shadow: 0 12px 35px rgba(44, 159, 226, 0.45);
+  }
+}
+
+/* 4K és nagyobb (3840px+) */
+@media (min-width: 3840px) {
+  .cookie-banner {
+    max-width: 1500px;
+    bottom: 56px;
+  }
+  
+  .cookie-card {
+    padding: 46px 58px;
+    border-radius: 34px;
+  }
+  
+  .cookie-card p {
+    font-size: 1.7rem;
+    line-height: 2.0;
+  }
+  
+  .cookie-list li {
+    font-size: 1.7rem;
+    padding-left: 46px;
+    margin-bottom: 20px;
+  }
+  
+  .cookie-list li::before {
+    font-size: 1.8rem;
+  }
+  
+  .cookie-buttons {
+    margin-top: 36px;
+    gap: 30px;
+  }
+  
+  .cookie-buttons button {
+    padding: 20px 50px;
+    font-size: 1.7rem;
+    border-radius: 999px;
+  }
+  
+  .cookie-card::before {
+    padding: 4px;
+  }
+  
+  .cookie-accept {
+    box-shadow: 0 14px 40px rgba(44, 159, 226, 0.5);
+  }
+}
+
+/* Extra nagy UltraWide (5120px+) */
+@media (min-width: 5120px) {
+  .cookie-banner {
+    max-width: 1700px;
+    bottom: 64px;
+  }
+  
+  .cookie-card {
+    padding: 52px 66px;
+    border-radius: 38px;
+  }
+  
+  .cookie-card p {
+    font-size: 1.9rem;
+    line-height: 2.1;
+  }
+  
+  .cookie-list li {
+    font-size: 1.9rem;
+    padding-left: 52px;
+    margin-bottom: 22px;
+  }
+  
+  .cookie-list li::before {
+    font-size: 2.0rem;
+  }
+  
+  .cookie-buttons {
+    margin-top: 40px;
+    gap: 34px;
+  }
+  
+  .cookie-buttons button {
+    padding: 22px 56px;
+    font-size: 1.9rem;
+    border-radius: 999px;
+  }
+  
+  .cookie-card::before {
+    padding: 4.5px;
+  }
+  
+  .cookie-accept {
+    box-shadow: 0 16px 45px rgba(44, 159, 226, 0.55);
+  }
+  
+  .cookie-card {
+    box-shadow:
+      0 20px 60px rgba(0,0,0,0.5),
+      0 0 80px rgba(44,159,226,0.35);
+  }
+}
+
+/* Extra extra large - még nagyobb képernyők (7680px+) */
+@media (min-width: 7680px) {
+  .cookie-banner {
+    max-width: 2000px;
+    bottom: 80px;
+  }
+  
+  .cookie-card {
+    padding: 60px 80px;
+    border-radius: 44px;
+  }
+  
+  .cookie-card p {
+    font-size: 2.2rem;
+    line-height: 2.3;
+  }
+  
+  .cookie-list li {
+    font-size: 2.2rem;
+    padding-left: 60px;
+    margin-bottom: 26px;
+  }
+  
+  .cookie-list li::before {
+    font-size: 2.3rem;
+  }
+  
+  .cookie-buttons {
+    margin-top: 48px;
+    gap: 40px;
+  }
+  
+  .cookie-buttons button {
+    padding: 26px 68px;
+    font-size: 2.2rem;
+    border-radius: 999px;
+  }
+  
+  .cookie-card::before {
+    padding: 5px;
+  }
+  
+  .cookie-accept {
+    box-shadow: 0 20px 60px rgba(44, 159, 226, 0.6);
+  }
+}
+
+/* MOBIL RESZPONZÍV MÉRETEK - ARÁNYOS CSÖKKENTÉS */
+@media (max-width: 900px) {
+  .cookie-banner {
+    width: calc(100% - 24px);
+    bottom: 20px;
+  }
+  
+  .cookie-card {
+    padding: 18px 20px;
+  }
+  
+  .cookie-buttons {
+    margin-top: 14px;
+    gap: 10px;
+  }
+  
+  .cookie-buttons button {
+    padding: 8px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cookie-banner {
+    width: calc(100% - 16px);
+    bottom: 16px;
+  }
+  
+  .cookie-card {
+    padding: 16px 18px;
+    border-radius: 16px;
+  }
+  
+  .cookie-card p {
+    font-size: 0.9rem;
+  }
+  
+  .cookie-list li {
+    font-size: 0.9rem;
+    padding-left: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .cookie-buttons {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  
+  .cookie-buttons button {
+    padding: 10px 16px;
+    font-size: 0.9rem;
+  }
+}
 
 
 /* ================= PAGE LOADER ================= */
