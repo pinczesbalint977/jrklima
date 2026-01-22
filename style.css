@@ -1536,23 +1536,30 @@ a{
   );
 }
 
+
+
 .kepsav-track {
   display: flex;
   gap: 16px;
   width: max-content;
   height: 100%;
-  animation: infinite-scroll 30s linear infinite;
   will-change: transform;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-drag: none;
+  touch-action: pan-y;
 }
 
-@keyframes infinite-scroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(calc(-50% - 8px));
-  }
+.kepsav-track.dragging {
+  animation: none;
+  cursor: grabbing;
+  transition: none !important; /* Fontos: ne legyen transition drag közben */
 }
+
+.kepsav-track:active {
+  cursor: grabbing;
+}
+
 
 .kepsav-item {
   flex-shrink: 0;
@@ -1598,10 +1605,6 @@ a{
   transition: background-position 0.8s ease; /* Hozzáadva: hover animáció */
 }
 
-/* Hover effektek */
-.kepsav-container:hover .kepsav-track {
-  animation-play-state: paused;
-}
 
 
 
@@ -1609,6 +1612,461 @@ a{
   background-position: 100% 50%; /* A border gradient mozog */
 }
 
+
+
+.kepsav-container {
+  height: 180px; /* Fix magasság */
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  border-radius: 18px;
+  background: rgba(4, 4, 4, 0.08);
+  backdrop-filter: blur(2px);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.45);
+  margin-top: 20px;
+  flex-shrink: 0; /* Fontos: ne zsugorodjon össze */
+}
+
+/* Shadow maszk a két oldalon */
+.kepsav-container::before,
+.kepsav-container::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 60px;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.kepsav-container::before {
+  left: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(44, 159, 226, 0.8) 0%,
+    rgba(44, 159, 226, 0.4) 50%,
+    transparent 100%
+  );
+}
+
+.kepsav-container::after {
+  right: 0;
+  background: linear-gradient(
+    270deg,
+    rgba(44, 159, 226, 0.8) 0%,
+    rgba(44, 159, 226, 0.4) 50%,
+    transparent 100%
+  );
+}
+
+.kepsav-track {
+  display: flex;
+  gap: 16px;
+  width: max-content;
+  height: 100%;
+  animation: infinite-scroll 30s linear infinite;
+  will-change: transform;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-drag: none;
+  touch-action: pan-y;
+  position: relative;
+  left: 0;
+}
+
+@keyframes infinite-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-50% - 8px));
+  }
+}
+
+.kepsav-item {
+  flex-shrink: 0;
+  width: 240px;
+  height: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.4s ease;
+}
+
+.kepsav-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+/* Gradient border a képekre */
+.kepsav-item::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  padding: 2px;
+  background: linear-gradient(
+    120deg,
+    transparent 30%,
+    rgba(111,211,255,0.9),
+    rgba(44,159,226,1),
+    rgba(111,211,255,0.9),
+    transparent 70%
+  );
+  background-size: 300% 300%;
+  background-position: 0% 50%;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.9;
+  transition: background-position 0.8s ease;
+}
+
+/* Hover effektek */
+.kepsav-container:hover .kepsav-track {
+  animation-play-state: paused;
+}
+
+.kepsav-item:hover::before {
+  background-position: 100% 50%;
+}
+
+/* Disable animation when dragging */
+.kepsav-track.dragging {
+  animation: none;
+  cursor: grabbing;
+}
+
+.kepsav-track:active {
+  cursor: grabbing;
+}
+
+/* ================= KÉP NAGYÍTÁS OVERLAY ================= */
+
+.image-zoom-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.98);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  backdrop-filter: blur(20px);
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  touch-action: pan-y;
+}
+
+.image-zoom-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.zoomed-image-container {
+  position: relative;
+  width: 90%;
+  height: 90%;
+  max-width: 1200px;
+  max-height: 800px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.zoomed-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 16px;
+  box-shadow: 0 25px 75px rgba(0, 0, 0, 0.8);
+  transform: scale(0.95);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  opacity: 0;
+  animation: zoomIn 0.4s forwards;
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.image-zoom-overlay.active .zoomed-image {
+  transform: scale(1);
+}
+
+/* Bezárás gomb - MEGFORMÁZVA */
+.close-zoom {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  background: linear-gradient(135deg, #2c9fe2, #1b6fb8);
+  color: white;
+  border: none;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+  z-index: 10000;
+  box-shadow: 0 8px 25px rgba(44, 159, 226, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.close-zoom:hover {
+  background: linear-gradient(135deg, #6fd3ff, #2c9fe2);
+  transform: scale(1.1) rotate(90deg);
+  box-shadow: 0 12px 35px rgba(111, 211, 255, 0.6);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Navigációs gombok - MEGFORMÁZVA */
+.zoom-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: linear-gradient(135deg, rgba(44, 159, 226, 0.9), rgba(27, 111, 184, 0.9));
+  color: white;
+  border: none;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  font-size: 32px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+  z-index: 10000;
+  box-shadow: 0 8px 25px rgba(44, 159, 226, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.zoom-nav:hover {
+  background: linear-gradient(135deg, rgba(111, 211, 255, 0.95), rgba(44, 159, 226, 0.95));
+  transform: translateY(-50%) scale(1.15);
+  box-shadow: 0 12px 35px rgba(111, 211, 255, 0.6);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.zoom-nav.prev {
+  left: 30px;
+}
+
+.zoom-nav.next {
+  right: 30px;
+}
+
+/* Kép számláló - MEGFORMÁZVA */
+.image-counter {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 12px 28px;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  z-index: 10000;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  min-width: 120px;
+  text-align: center;
+}
+
+/* Touch device optimizations */
+@media (max-width: 900px) {
+  .kepsav-track {
+    animation-duration: 40s;
+  }
+  
+  .image-zoom-overlay {
+    background: rgba(0, 0, 0, 0.99);
+  }
+  
+  .zoomed-image-container {
+    width: 95%;
+    height: 85%;
+    padding: 10px;
+  }
+  
+  .close-zoom {
+    top: 20px;
+    right: 20px;
+    width: 55px;
+    height: 55px;
+    font-size: 26px;
+  }
+  
+  .zoom-nav {
+    width: 60px;
+    height: 60px;
+    font-size: 28px;
+  }
+  
+  .zoom-nav.prev {
+    left: 20px;
+  }
+  
+  .zoom-nav.next {
+    right: 20px;
+  }
+  
+  .image-counter {
+    bottom: 20px;
+    padding: 10px 20px;
+    font-size: 15px;
+    min-width: 100px;
+  }
+}
+
+/* Extra kis képernyők */
+@media (max-width: 480px) {
+  .close-zoom {
+    top: 15px;
+    right: 15px;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+  }
+  
+  .zoom-nav {
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+  }
+  
+  .zoom-nav.prev {
+    left: 15px;
+  }
+  
+  .zoom-nav.next {
+    right: 15px;
+  }
+  
+  .image-counter {
+    bottom: 15px;
+    padding: 8px 16px;
+    font-size: 14px;
+    min-width: 90px;
+  }
+  
+  .zoomed-image-container {
+    width: 98%;
+    height: 80%;
+  }
+}
+
+
+
+/* CSS kiegészítések a nagyító ikonhoz */
+
+/* Nagyító ikon a kép sarkában */
+.kepsav-item {
+  position: relative;
+  cursor: pointer;
+}
+
+.zoom-icon {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, rgba(44, 159, 226, 0.9), rgba(27, 111, 184, 0.9));
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  opacity: 0.9;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(5px);
+}
+
+.zoom-icon::before {
+  content: "🔍";
+  font-size: 18px;
+  color: white;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.zoom-icon:hover {
+  opacity: 1;
+  transform: scale(1.1);
+  background: linear-gradient(135deg, rgba(111, 211, 255, 0.95), rgba(44, 159, 226, 0.95));
+  box-shadow: 0 6px 20px rgba(44, 159, 226, 0.5);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Kép hover effect */
+.kepsav-item:hover .zoom-icon {
+  opacity: 1;
+}
+
+/* Kép nagyítás overlay (a meglévő kód mellé) */
+/* ... a meglévő CSS marad ... */
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .zoom-icon {
+    width: 36px;
+    height: 36px;
+    bottom: 10px;
+    right: 10px;
+  }
+  
+  .zoom-icon::before {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .zoom-icon {
+    width: 32px;
+    height: 32px;
+    bottom: 8px;
+    right: 8px;
+  }
+  
+  .zoom-icon::before {
+    font-size: 14px;
+  }
+}
 /* ================= JOBB OLDAL – VERTIKÁLIS CAROUSEL ================= */
 
 .klimatel-carousel {
@@ -2821,6 +3279,405 @@ a{
   }
 }
 
+
+
+
+
+
+
+
+/* CSS KÉPSÁV DRAG AND DROP STÍLUSOK klimakar.html-hez */
+
+/* Nagyító ikon - KARBANTARTÁS KÉPEKHEZ */
+.kar-img-card {
+  position: relative;
+  cursor: pointer;
+}
+
+/* Nagyító ikon a kép sarkában - KLIMAKAR SPECIFIKUS */
+.kar-zoom-icon {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  width: 45px;
+  height: 45px;
+  background: linear-gradient(135deg, rgba(44, 159, 226, 0.95), rgba(27, 111, 184, 0.95));
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  opacity: 0.9;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(8px);
+}
+
+.kar-zoom-icon::before {
+  content: "🔍";
+  font-size: 20px;
+  color: white;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.4));
+}
+
+.kar-zoom-icon:hover {
+  opacity: 1;
+  transform: scale(1.15);
+  background: linear-gradient(135deg, rgba(111, 211, 255, 0.95), rgba(44, 159, 226, 0.95));
+  box-shadow: 0 8px 25px rgba(44, 159, 226, 0.6);
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+/* Drag and drop támogatás - KLIMAKAR SPECIFIKUS */
+.kar-carousel-track {
+  display: flex;
+  width: max-content;
+  animation: karMarquee 30s linear infinite;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-drag: none;
+  touch-action: pan-y;
+  will-change: transform;
+}
+
+.kar-carousel-track.dragging {
+  animation: none;
+  cursor: grabbing;
+  transition: none !important;
+}
+
+.kar-carousel-track:active {
+  cursor: grabbing;
+}
+
+/* Kép nagyítás overlay - KLIMAKAR SPECIFIKUS */
+.kar-image-zoom-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.98);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  backdrop-filter: blur(20px);
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  touch-action: pan-y;
+}
+
+.kar-image-zoom-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.kar-zoomed-image-container {
+  position: relative;
+  width: 90%;
+  height: 90%;
+  max-width: 1200px;
+  max-height: 800px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.kar-zoomed-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 16px;
+  box-shadow: 0 25px 75px rgba(0, 0, 0, 0.8);
+  transform: scale(0.95);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  opacity: 0;
+  animation: karZoomIn 0.4s forwards;
+}
+
+@keyframes karZoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.kar-image-zoom-overlay.active .kar-zoomed-image {
+  transform: scale(1);
+}
+
+/* Bezárás gomb - KLIMAKAR SPECIFIKUS */
+.kar-close-zoom {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  background: linear-gradient(135deg, #2c9fe2, #1b6fb8);
+  color: white;
+  border: none;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+  z-index: 10000;
+  box-shadow: 0 8px 25px rgba(44, 159, 226, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.kar-close-zoom:hover {
+  background: linear-gradient(135deg, #6fd3ff, #2c9fe2);
+  transform: scale(1.1) rotate(90deg);
+  box-shadow: 0 12px 35px rgba(111, 211, 255, 0.6);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Navigációs gombok - KLIMAKAR SPECIFIKUS */
+.kar-zoom-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: linear-gradient(135deg, rgba(44, 159, 226, 0.9), rgba(27, 111, 184, 0.9));
+  color: white;
+  border: none;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  font-size: 32px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+  z-index: 10000;
+  box-shadow: 0 8px 25px rgba(44, 159, 226, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.kar-zoom-nav:hover {
+  background: linear-gradient(135deg, rgba(111, 211, 255, 0.95), rgba(44, 159, 226, 0.95));
+  transform: translateY(-50%) scale(1.15);
+  box-shadow: 0 12px 35px rgba(111, 211, 255, 0.6);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.kar-zoom-nav.prev {
+  left: 30px;
+}
+
+.kar-zoom-nav.next {
+  right: 30px;
+}
+
+/* Kép számláló - KLIMAKAR SPECIFIKUS */
+.kar-image-counter {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 12px 28px;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  z-index: 10000;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  min-width: 120px;
+  text-align: center;
+}
+
+/* Responsive adjustments - KLIMAKAR */
+@media (max-width: 900px) {
+  .kar-zoom-icon {
+    width: 40px;
+    height: 40px;
+    bottom: 12px;
+    right: 12px;
+  }
+  
+  .kar-zoom-icon::before {
+    font-size: 18px;
+  }
+  
+  .kar-close-zoom {
+    top: 20px;
+    right: 20px;
+    width: 55px;
+    height: 55px;
+    font-size: 26px;
+  }
+  
+  .kar-zoom-nav {
+    width: 60px;
+    height: 60px;
+    font-size: 28px;
+  }
+  
+  .kar-zoom-nav.prev {
+    left: 20px;
+  }
+  
+  .kar-zoom-nav.next {
+    right: 20px;
+  }
+  
+  .kar-image-counter {
+    bottom: 20px;
+    padding: 10px 20px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .kar-zoom-icon {
+    width: 36px;
+    height: 36px;
+    bottom: 10px;
+    right: 10px;
+  }
+  
+  .kar-zoom-icon::before {
+    font-size: 16px;
+  }
+  
+  .kar-close-zoom {
+    top: 15px;
+    right: 15px;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+  }
+  
+  .kar-zoom-nav {
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+  }
+  
+  .kar-zoom-nav.prev {
+    left: 15px;
+  }
+  
+  .kar-zoom-nav.next {
+    right: 15px;
+  }
+  
+  .kar-image-counter {
+    bottom: 15px;
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+}
+
+
+
+/* VÉGTELEN SÁV KORREKCIÓK */
+.kar-carousel {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+/* MOZGÓ SÁV - JAVÍTVA A VÉGTELEN HATÁSHOZ */
+.kar-carousel-track {
+  display: flex;
+  width: max-content;
+  animation: karMarquee 30s linear infinite;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-drag: none;
+  touch-action: pan-y;
+  will-change: transform;
+}
+
+/* KÉP KÁRTYA - JAVÍTVA */
+.kar-img-card {
+  position: relative;
+  width: 250px;
+  height: 250px;
+  flex-shrink: 0;
+  margin-right: 24px;
+  border-radius: 18px;
+  overflow: hidden;
+  background: rgba(4, 4, 4, 0.08);
+  backdrop-filter: blur(2px);
+  border: 1px solid rgba(111,211,255,0.25);
+  box-shadow:
+    0 12px 35px rgba(0,0,0,0.45),
+    0 0 35px rgba(44,159,226,0.35);
+  transition: all 0.4s ease;
+}
+
+/* KÉP */
+.kar-img-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}
+
+/* VÉGTELEN MOZGÁS ANIMÁCIÓ */
+@keyframes karMarquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-50%));
+  }
+}
+
+/* DRAG STÁTUSZ */
+.kar-carousel-track.dragging {
+  animation: none;
+  cursor: grabbing;
+  transition: none !important;
+}
+
+.kar-carousel-track:active {
+  cursor: grabbing;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .kar-img-card {
+    width: 200px;
+    height: 200px;
+    margin-right: 16px;
+  }
+  
+  .kar-carousel-track {
+    animation-duration: 40s;
+  }
+}
+
+@media (max-width: 600px) {
+  .kar-img-card {
+    width: 180px;
+    height: 180px;
+  }
+}
 
 /* ================= CONTACT ================= */
 
