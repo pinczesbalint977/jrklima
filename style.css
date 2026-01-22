@@ -1,0 +1,4297 @@
+/* ================= RESET ================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+html, body {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  background-color: #062e60;
+}
+
+
+body {
+  padding-top: 80px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+/* ================= NAVBAR – FLUID / ULTRAWIDE READY ================= */
+
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  padding-top: env(safe-area-inset-top);
+  background: transparent;
+}
+
+/* ===== FŐ KONTAINER ===== */
+/* NEM fix max-width, hanem skálázódó */
+
+.nav-inner {
+  width: 100%;
+  max-width: min(92vw, 1800px); /* ← EZ A KULCS */
+  margin: 0 auto;
+
+  height: clamp(72px, 6vh, 90px);
+  padding-inline: clamp(24px, 4vw, 96px);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ===== LOGO ===== */
+
+.logo img {
+  width: clamp(72px, 4vw, 110px);
+  height: auto;
+  display: block;
+}
+
+/* ===== DESKTOP NAV ===== */
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  align-items: center;
+
+  gap: clamp(24px, 3vw, 48px);
+}
+
+.nav-links a {
+  position: relative;
+  font-size: clamp(0.95rem, 0.85vw, 1.15rem);
+  font-weight: 500;
+
+  text-decoration: none;
+  color: whitesmoke;
+  padding: 6px 0;
+
+  transition: color 0.25s ease;
+}
+
+/* ===== HOVER / ACTIVE ===== */
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: #6fd3ff;
+  text-shadow:
+    0 0 6px rgba(111,211,255,0.6),
+    0 0 12px rgba(44,159,226,0.35);
+}
+
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+
+  width: 0;
+  height: 2px;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #6fd3ff,
+    #2c9fe2,
+    #6fd3ff,
+    transparent
+  );
+
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: width 0.3s ease, opacity 0.3s ease;
+}
+
+.nav-links a:hover::after,
+.nav-links a.active::after {
+  width: 120%;
+  opacity: 1;
+}
+
+/* ===== HAMBURGER ===== */
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.hamburger span {
+  width: 26px;
+  height: 2px;
+  background: whitesmoke;
+  transition: 0.3s ease;
+}
+
+/* ===== MOBILE DROPDOWN ===== */
+
+.mobile-dropdown {
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  background: #062e60;
+
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease;
+}
+
+.mobile-dropdown.active {
+  max-height: 420px;
+}
+
+.mobile-dropdown ul {
+  list-style: none;
+  padding: 28px 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+}
+
+.mobile-dropdown a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+/* ===== LOAD ANIMATION ===== */
+
+.navbar.load {
+  opacity: 0;
+  animation: navbarFade 0.8s ease forwards;
+}
+
+@keyframes navbarFade {
+  to { opacity: 1; }
+}
+
+/* ===== MOBILE ===== */
+
+@media (max-width: 900px) {
+  .desktop { display: none; }
+  .hamburger { display: flex; }
+
+  .nav-inner {
+    padding-inline: 24px;
+  }
+}
+
+/* ===== NAVBAR SCALE – 1920px ===== */
+@media (min-width: 1900px) {
+
+  .nav-links a {
+    font-size: 1.3rem;
+  }
+
+    .logo img {
+    margin-top: 40px;
+    width: 115px;
+  }
+}
+
+
+/* ===== NAVBAR SCALE – 2560px ===== */
+@media (min-width: 2200px) {
+
+  .nav-inner {
+    max-width: 2000px;
+    height: 100px;
+    padding-inline: 140px;
+  }
+
+  .logo img {
+    margin-top: 40px;
+    width: 130px;
+  }
+
+  .nav-links {
+    gap: 56px;
+  }
+
+  .nav-links a {
+    font-size: 1.5rem;
+  }
+}
+
+
+/* ===== NAVBAR SCALE – 3440px ===== */
+@media (min-width: 3000px) {
+
+  .nav-inner {
+    max-width: 2400px;
+    height: 120px;
+    padding-inline: 180px;
+  }
+
+  .logo img {
+    margin-top: 40px;
+    width: 160px;
+  }
+
+  .nav-links {
+    gap: 72px;
+  }
+
+  .nav-links a {
+    font-size: 1.8rem;
+  }
+}
+
+
+/* ================= HOME ================= */
+
+.homebody {
+  position: relative;
+  min-height: 100svh; /* iOS 16+ */
+  min-height: 100dvh; /* modern mobil */
+  min-height: 100vh;  /* fallback */
+  width: 100%;
+
+  background-image: url("pic/IMG_0959_eredmény1.webp");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  overflow: hidden;
+}
+
+.homebody::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+
+  background:
+    radial-gradient(
+      ellipse at 82% 28%,
+      rgba(44,159,226,0.35) 10%,
+      rgba(44,159,226,0.25) 20%,
+      rgba(30,79,163,0.18) 35%,
+      rgba(11,42,111,0.25) 40%,
+      rgba(7,22,74,0.55) 60%,
+      rgba(5,11,44,0.85) 85%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(5,11,44,0.95) 15%,
+      rgba(7,22,74,0.9) 30%,
+      rgba(11,42,111,0.65) 50%,
+      rgba(30,79,163,0.45) 70%,
+      rgba(44,159,226,0.25) 100%
+    );
+}
+
+.homebody > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* ================= HERO TEXT ================= */
+
+.text {
+  width: 100%;
+  max-width: 800px;
+  height: 88vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+
+  padding-left: 150px;
+  padding-bottom: 100px;
+
+  color: white;
+}
+
+/* HEADLINE */
+
+.text h1 {
+  font-size: 8rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  line-height: 1.1;
+  letter-spacing: 5px;
+}
+
+.text h2 {
+  font-size: 3rem;
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: #e9f4ff;
+}
+
+.text p {
+  margin-top: 18px;
+  margin-bottom: 36px;
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.75);
+}
+
+.text p a{
+
+    color: rgba(255,255,255,0.75);
+}
+
+/* ================= BUTTONS ================= */
+
+.btns {
+  display: flex;
+  gap: 18px;
+}
+
+.btn-primary {
+  padding: 14px 36px;
+  border-radius: 999px;
+
+  background: linear-gradient(
+    135deg,
+    #7dd9ff 0%,
+    #3aa6f0 45%,
+    #1f6fd1 100%
+  );
+
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+
+  box-shadow:
+    0 10px 25px rgba(44,159,226,0.35),
+    inset 0 1px 0 rgba(255,255,255,0.35);
+
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 14px 35px rgba(44,159,226,0.45),
+    inset 0 1px 0 rgba(255,255,255,0.45);
+}
+
+.btn-secondary {
+  padding: 14px 36px;
+  border-radius: 999px;
+
+  border: 1px solid rgba(125,217,255,0.45);
+  color: #eaf6ff;
+  text-decoration: none;
+
+  background: rgba(255,255,255,0.03);
+  backdrop-filter: blur(4px);
+
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background: rgba(125,217,255,0.08);
+  border-color: rgba(125,217,255,0.75);
+  transform: translateY(-2px);
+}
+
+/* ================= GRADIENT TEXT ================= */
+
+.grad-text {
+  background: linear-gradient(
+    135deg,
+    #6fd3ff 0%,
+    #2c9fe2 40%,
+    #1b6fb8 100%
+  );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ===== HOME SCALE – 1900px ===== */
+@media (min-width: 1900px) {
+
+  .text {
+    max-width: 1000px;
+    padding-left: 150px;
+
+  }
+
+  .text h1 {
+    font-size: 10rem;
+    letter-spacing: 6px;
+  }
+
+  .text h2 {
+    font-size:3.5rem;
+  }
+
+  .text p {
+    font-size: 2rem;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    padding: 18px 48px;
+    font-size: 1.3rem;
+  }
+
+  .btns {
+    gap: 24px;
+  }
+}
+
+
+
+
+
+/* ===== HOME SCALE – 2560px ===== */
+@media (min-width: 2200px) {
+
+  .text {
+    max-width: 1500px;
+    padding-left: 200px;
+
+  }
+
+  .text h1 {
+    font-size: 12rem;
+    letter-spacing: 6px;
+  }
+
+  .text h2 {
+    font-size: 4.5rem;
+  }
+
+  .text p {
+    font-size: 2rem;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    padding: 25px 68px;
+    font-size: 1.5rem;
+  }
+
+  .btns {
+    gap: 24px;
+  }
+}
+
+
+/* ===== HOME SCALE – 3440px ===== */
+@media (min-width: 3000px) {
+
+  .text {
+    max-width: 1600px;
+    padding-left: 250px;
+
+  }
+
+  .text h1 {
+    font-size: 14rem;
+    letter-spacing: 8px;
+  }
+
+  .text h2 {
+    font-size: 6rem;
+  }
+
+  .text p {
+    font-size: 3rem;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    font-size: 2rem;
+    width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .btns {
+    gap: 30px;
+  }
+}
+
+
+
+/* ================= SERVICES ================= */
+
+.serbody {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+
+  background-image: url("pic/service1.webp");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  overflow: hidden;
+}
+
+a{
+
+  text-decoration: none;
+}
+
+/* OVERLAY */
+.serbody::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+
+  background:
+    radial-gradient(
+      ellipse at 82% 28%,
+      rgba(44,159,226,0.35) 10%,
+      rgba(44,159,226,0.25) 20%,
+      rgba(30,79,163,0.18) 35%,
+      rgba(11,42,111,0.25) 40%,
+      rgba(7,22,74,0.55) 60%,
+      rgba(5,11,44,0.85) 85%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(5,11,44,0.95) 15%,
+      rgba(7,22,74,0.9) 30%,
+      rgba(11,42,111,0.65) 50%,
+      rgba(30,79,163,0.45) 70%,
+      rgba(44,159,226,0.25) 100%
+    );
+}
+
+.serbody > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* ================= MAIN ================= */
+
+.services-main {
+  min-height: calc(100vh - 80px);
+  padding: 120px 4vw 100px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* ================= HEADER ================= */
+
+.services-header {
+  max-width: none;
+  width: 45%;
+  margin-bottom:40px;
+}
+
+.services-header h1 {
+  font-size: 3.4rem;
+  margin-bottom: 16px;
+  color: #ffffff;
+}
+
+.services-header p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.75);
+}
+
+/* ================= CARDS GRID ================= */
+
+.services-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2vw;
+  align-items: stretch;
+}
+
+/* ================= CARD ================= */
+
+.service-card {
+  padding: 28px;
+  border-radius: 18px;
+
+  background: rgba(4, 4, 4, 0.079);
+  backdrop-filter: blur(2px);
+  border: 1px solid rgba(111,211,255,0.18);
+
+  box-shadow: 0 15px 40px rgba(0,0,0,0.45);
+  transition: ease 0.5s;
+}
+
+
+.service-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(
+    120deg,
+    transparent 30%,
+    rgba(111,211,255,0.9),
+    rgba(44,159,226,1),
+    rgba(111,211,255,0.9),
+    transparent 70%
+  );
+  background-size: 300% 300%;
+  background-position: 0% 50%;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0.9;
+  transition: background-position 0.8s ease;
+  pointer-events: none;
+}
+
+.service-card:hover {
+  transform: translateY(-15px);
+  box-shadow:
+    0 20px 50px rgba(0,0,0,0.55),
+    0 0 90px rgba(44, 159, 226, 0.774);
+  background: rgba(4, 4, 4, 0.27);
+  backdrop-filter: blur(6px);
+}
+
+.service-card:hover::before {
+  background-position: 100% 50%;
+}
+
+
+/* ================= ICON ================= */
+
+.service-card .icon {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.service-card .icon svg {
+  filter:
+    drop-shadow(0 0 6px rgba(111,211,255,0.45))
+    drop-shadow(0 0 14px rgba(44,159,226,0.35));
+}
+
+/* ================= TEXT ================= */
+
+.service-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 12px;
+  color: #ffffff;
+}
+
+.service-card p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.75);
+}
+
+/* ================= BREAKPOINTS ================= */
+
+/* LAPTOP */
+@media (max-width: 1400px) {
+  .services-header {
+    width: 60%;
+  }
+}
+
+/* TABLET */
+@media (max-width: 1200px) {
+  .services-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .services-header {
+    width: 100%;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+  .services-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .services-header h1 {
+    font-size: 2.4rem;
+  }
+
+  .serbody{
+
+    overflow: auto;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 1100px) {
+
+  .serbody{
+
+    overflow: auto;
+  }
+}
+
+/* ================= ULTRAWIDE / NAGY KÉPERNYŐ ================= */
+
+/* 1920+ */
+@media (min-width: 1800px) {
+  .services-main {
+    padding: 140px 5vw 120px;
+  }
+
+  .services-header {
+    width: 50%;
+    margin-top: 40px;
+  }
+
+  .services-header h1 {
+    font-size: 4.4rem;
+  }
+
+  .services-header p {
+    font-size: 1.8rem;
+  }
+
+  .service-card {
+    padding: 40px;
+  }
+
+  .service-card h3 {
+    font-size: 1.6rem;
+  }
+
+  .service-card p {
+    font-size: 1.1rem;
+  }
+
+  .service-card .icon {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+/* 2560+ */
+@media (min-width: 2400px) {
+  .services-main {
+    padding: 180px 6vw 160px;
+  }
+
+  .services-header {
+    width: 60%;
+    margin-top: 140px;
+  }
+
+  .services-header h1 {
+    font-size: 5.7rem;
+  }
+
+  .services-header p {
+    font-size: 2.6rem;
+  }
+
+  .services-cards {
+    gap: 3vw;
+  }
+
+  .service-card {
+    padding: 56px;
+  }
+
+  .service-card h3 {
+    font-size: 1.9rem;
+  }
+
+  .service-card p {
+    font-size: 1.35rem;
+  }
+
+  .service-card .icon {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+/* 3440 ULTRAWIDE */
+@media (min-width: 3000px) {
+  .services-main {
+    padding: 220px 7vw 200px;
+  }
+
+  .services-header {
+    width: 60%;
+    margin-top: -10px;
+  }
+
+  .services-header h1 {
+    font-size: 6.7rem;
+  }
+
+  .services-header p {
+    font-size: 3rem;
+  }
+
+  .service-card {
+    padding: 72px;
+  }
+
+  .service-card h3 {
+    font-size: 2.3rem;
+  }
+
+  .service-card p {
+    font-size: 1.5rem;
+  }
+
+  .service-card .icon {
+    width: 140px;
+    height: 140px;
+  }
+}
+
+
+
+/* ================= about ================= */
+
+.abbody {
+  position: relative;
+  min-height: 100svh;
+  min-height: 100dvh;
+  min-height: 100vh;
+  width: 100%;
+  background-image: url("pic/about1.webp");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow-x: hidden;
+}
+
+/* háttér overlay */
+.abbody::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    radial-gradient(
+      ellipse at 82% 28%,
+      rgba(44,159,226,0.35) 10%,
+      rgba(44,159,226,0.25) 20%,
+      rgba(30,79,163,0.18) 35%,
+      rgba(11,42,111,0.25) 40%,
+      rgba(7,22,74,0.55) 60%,
+      rgba(5,11,44,0.85) 85%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(5,11,44,0.95) 15%,
+      rgba(7,22,74,0.9) 30%,
+      rgba(11,42,111,0.65) 50%,
+      rgba(30,79,163,0.45) 70%,
+      rgba(44,159,226,0.25) 100%
+    );
+}
+
+.abbody > * {
+  position: relative;
+  z-index: 2;
+}
+
+.about-main {
+  height: calc(100vh - 80px);
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.about-header {
+  margin-bottom: 60px;
+}
+
+.about-header h1 {
+  font-size: 3.4rem;
+  margin-bottom: 20px;
+  color: #ffffff;
+}
+
+.about-header p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.75);
+  max-width: 800px;
+}
+
+/* ================= CARDS ================= */
+
+.about-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  width: 100%;
+  max-width: 900px;
+}
+
+/* CARD */
+
+.about-card {
+  position: relative;
+  padding: 15px 15px;
+  border-radius: 18px;
+  background: rgba(4, 4, 4, 0.079);
+  backdrop-filter: blur(2px);
+  border: 1px solid rgba(111,211,255,0.18);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.45);
+  overflow: hidden;
+  transition: ease 0.5s;
+  width: 100%;
+  max-width: 250px;
+  margin: 0 auto;
+}
+
+.about-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(
+    120deg,
+    transparent 30%,
+    rgba(111,211,255,0.9),
+    rgba(44,159,226,1),
+    rgba(111,211,255,0.9),
+    transparent 70%
+  );
+  background-size: 300% 300%;
+  background-position: 0% 50%;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0.9;
+  transition: background-position 0.8s ease;
+  pointer-events: none;
+}
+
+.about-card:hover {
+  transform: translateY(-15px);
+  box-shadow:
+    0 20px 50px rgba(0,0,0,0.55),
+    0 0 90px rgba(44, 159, 226, 0.774);
+  background: rgba(4, 4, 4, 0.27);
+  backdrop-filter: blur(6px);
+}
+
+.about-card:hover::before {
+  background-position: 100% 50%;
+}
+
+/* TEXT */
+
+.about-card h3 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  color: #6fd3ff;
+  font-weight: bold;
+}
+
+.about-card p {
+  font-size: 1rem;
+  line-height: 1.4;
+  color: rgba(255,255,255,0.85);
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 1200px) {
+  .about-cards {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 800px;
+  }
+  
+  .about-main {
+    height: auto;
+    min-height: calc(100vh - 80px);
+    justify-content: flex-start;
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+  
+  .about-header {
+    margin-bottom: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    max-width: 600px;
+  }
+  
+  .about-card {
+    padding: 20px 15px;
+    max-width: 200px;
+  }
+  
+  .about-header h1 {
+    font-size: 2.8rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .about-cards {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    max-width: 300px;
+  }
+  
+  .about-header h1 {
+    font-size: 2.4rem;
+    margin-bottom: 15px;
+  }
+  
+  .about-header p {
+    font-size: 1rem;
+  }
+  
+  .about-main {
+    padding: 0 16px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
+  
+  .about-header {
+    margin-bottom: 30px;
+  }
+  
+  .abbody {
+    background-position: 72%;
+  }
+}
+
+/* ================= LARGE SCREENS - ARÁNYOS NÖVELÉS ================= */
+
+/* 1920x1080 (Full HD) */
+@media (min-width: 1920px) {
+  .about-main {
+    height: calc(100vh - 100px);
+    padding: 0 60px;
+    justify-content: center;
+  }
+  
+  .about-header {
+    margin-bottom: 80px;
+  }
+  
+  .about-header h1 {
+    font-size: 4.5rem;
+    margin-bottom: 25px;
+  }
+  
+  .about-header p {
+    font-size: 1.6rem;
+    line-height: 1.7;
+    max-width: 1000px;
+  }
+  
+  .about-cards {
+    gap: 30px;
+    max-width: 1200px;
+  }
+  
+  .about-card {
+    padding: 25px 30px;
+    border-radius: 22px;
+    max-width: 350px;
+  }
+  
+  .about-card h3 {
+    font-size: 3.5rem;
+    margin-bottom: 15px;
+  }
+  
+  .about-card p {
+    font-size: 1.4rem;
+    line-height: 1.5;
+  }
+}
+
+/* 2560x1440 (2K) */
+@media (min-width: 2560px) {
+  .about-main {
+    height: calc(100vh - 120px);
+    padding: 0 80px;
+  }
+  
+  .about-header {
+    margin-bottom: 100px;
+  }
+  
+  .about-header h1 {
+    font-size: 5.5rem;
+    margin-bottom: 35px;
+  }
+  
+  .about-header p {
+    font-size: 2rem;
+    line-height: 1.8;
+    max-width: 1200px;
+  }
+  
+  .about-cards {
+    gap: 40px;
+    max-width: 1400px;
+  }
+  
+  .about-card {
+    padding: 35px 45px;
+    border-radius: 28px;
+    max-width: 400px;
+  }
+  
+  .about-card h3 {
+    font-size: 4.5rem;
+    margin-bottom: 20px;
+  }
+  
+  .about-card p {
+    font-size: 1.8rem;
+    line-height: 1.6;
+  }
+  
+  /* Border gradient thickness increase */
+  .about-card::before {
+    padding: 3px;
+  }
+  
+  .about-card:hover {
+    transform: translateY(-20px);
+  }
+}
+
+/* 3440x1440 (UltraWide) */
+@media (min-width: 3440px) {
+  .about-main {
+    height: calc(100vh - 140px);
+    padding: 0 100px;
+  }
+  
+  .about-header {
+    margin-bottom: 120px;
+  }
+  
+  .about-header h1 {
+    font-size: 6.5rem;
+    margin-bottom: 45px;
+  }
+  
+  .about-header p {
+    font-size: 2.1rem;
+    line-height: 1.9;
+    max-width: 1400px;
+  }
+  
+  .about-cards {
+    gap: 50px;
+    max-width: 1600px;
+  }
+  
+  .about-card {
+    padding: 50px 50px;
+    border-radius: 35px;
+    max-width: 500px;
+  }
+  
+  .about-card h3 {
+    font-size: 4rem;
+  }
+  
+  .about-card p {
+    font-size: 2.2rem;
+    line-height: 1.7;
+  }
+  
+  /* Border gradient thickness increase */
+  .about-card::before {
+    padding: 4px;
+  }
+  
+  /* Hover effects scaling */
+  .about-card:hover {
+    transform: translateY(-25px);
+    box-shadow:
+      0 25px 60px rgba(0,0,0,0.6),
+      0 0 120px rgba(44, 159, 226, 0.8);
+  }
+}
+
+/* 4K és nagyobb (3840px+) */
+@media (min-width: 3840px) {
+  .about-main {
+    height: calc(100vh - 160px);
+    padding: 0 120px;
+  }
+  
+  .about-header {
+    margin-bottom: 140px;
+  }
+  
+  .about-header h1 {
+    font-size: 7.5rem;
+    margin-bottom: 55px;
+  }
+  
+  .about-header p {
+    font-size: 2.8rem;
+    line-height: 2.0;
+    max-width: 1600px;
+  }
+  
+  .about-cards {
+    gap: 60px;
+    max-width: 1800px;
+  }
+  
+  .about-card {
+    padding: 65px 60px;
+    border-radius: 42px;
+    max-width: 500px;
+  }
+  
+  .about-card h3 {
+    font-size: 6.5rem;
+    margin-bottom: 30px;
+  }
+  
+  .about-card p {
+    font-size: 2.6rem;
+    line-height: 1.8;
+  }
+  
+  /* Border gradient thickness increase */
+  .about-card::before {
+    padding: 5px;
+  }
+}
+
+/* Extra nagy UltraWide (5120px+) */
+@media (min-width: 5120px) {
+  .about-main {
+    height: calc(100vh - 180px);
+    padding: 0 140px;
+  }
+  
+  .about-header {
+    margin-bottom: 160px;
+  }
+  
+  .about-header h1 {
+    font-size: 8.5rem;
+    margin-bottom: 65px;
+  }
+  
+  .about-header p {
+    font-size: 3.2rem;
+    line-height: 2.1;
+    max-width: 1800px;
+  }
+  
+  .about-cards {
+    gap: 70px;
+    max-width: 2000px;
+  }
+  
+  .about-card {
+    padding: 75px 70px;
+    border-radius: 50px;
+    max-width: 550px;
+  }
+  
+  .about-card h3 {
+    font-size: 7.5rem;
+    margin-bottom: 35px;
+  }
+  
+  .about-card p {
+    font-size: 3rem;
+    line-height: 1.9;
+  }
+  
+  .about-card::before {
+    padding: 6px;
+  }
+}
+
+
+
+
+
+/* ================= klimatel ================= */
+
+.klimatelbody {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  /* Háttérkép hozzáadva! */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* háttér overlay - MÓDOSÍTVA */
+.klimatelbody::after {
+  content: "";
+  position: absolute; /* VÁLTÁS: absolute maradjon, de fixáljuk */
+  inset: 0;
+  z-index: 1;
+  background:
+    radial-gradient(
+      ellipse at 82% 28%,
+      rgba(44,159,226,0.35) 10%,
+      rgba(44,159,226,0.25) 20%,
+      rgba(30,79,163,0.18) 35%,
+      rgba(11,42,111,0.25) 40%,
+      rgba(7,22,74,0.55) 60%,
+      rgba(5,11,44,0.85) 85%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(5,11,44,0.95) 15%,
+      rgba(7,22,74,0.9) 30%,
+      rgba(11,42,111,0.65) 50%,
+      rgba(30,79,163,0.45) 70%,
+      rgba(44,159,226,0.25) 100%
+    );
+  pointer-events: none;
+}
+
+.klimatelbody > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* FŐ KONTAINER */
+.klimatel-body {
+  flex: 1; /* Fontos: kitölti a rendelkezésre álló helyet */
+  display: flex;
+  flex-direction: column;
+  min-height: 0; /* Fontos a flex gyerekeknél */
+}
+
+.klimatel-container {
+  flex: 1; /* Kitölti a rendelkezésre álló helyet */
+  display: flex;
+  min-height: 0; /* Fontos a flex gyerekeknél */
+}
+
+/* BAL OLDAL - 60% */
+.klimatel-left {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  padding-top: 20px; /* Kevesebb padding felül */
+}
+
+.klimatel-title {
+  font-size: 3.2rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin: 0 0 20px 0;
+  background: linear-gradient(
+    135deg,
+    #6fd3ff 0%,
+    #2c9fe2 40%,
+    #1b6fb8 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.1;
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* ================= SZÖVEG RÉSZ ================= */
+
+.telepites-szoveg {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  color: rgba(255,255,255,0.75);
+  overflow: hidden; /* Megakadályozza a túlcsordulást */
+}
+
+.telepites-szoveg p {
+  font-size: 1.4rem;
+
+  margin-bottom: 24px;
+  color: rgba(255,255,255,0.75);
+  max-width: 90%;
+}
+/* ================= KÉPSÁV RÉSZ ================= */
+
+.kepsav-container {
+  height: 180px; /* Fix magasság */
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  border-radius: 18px;
+  background: rgba(4, 4, 4, 0.08);
+  backdrop-filter: blur(2px);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.45);
+  margin-top: 20px;
+  flex-shrink: 0; /* Fontos: ne zsugorodjon össze */
+}
+
+/* Shadow maszk a két oldalon */
+.kepsav-container::before,
+.kepsav-container::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 60px;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.kepsav-container::before {
+  left: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(44, 159, 226, 0.8) 0%,
+    rgba(44, 159, 226, 0.4) 50%,
+    transparent 100%
+  );
+}
+
+.kepsav-container::after {
+  right: 0;
+  background: linear-gradient(
+    270deg,
+    rgba(44, 159, 226, 0.8) 0%,
+    rgba(44, 159, 226, 0.4) 50%,
+    transparent 100%
+  );
+}
+
+.kepsav-track {
+  display: flex;
+  gap: 16px;
+  width: max-content;
+  height: 100%;
+  animation: infinite-scroll 30s linear infinite;
+  will-change: transform;
+}
+
+@keyframes infinite-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-50% - 8px));
+  }
+}
+
+.kepsav-item {
+  flex-shrink: 0;
+  width: 240px;
+  height: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.4s ease; /* Hozzáadva: hover animáció */
+}
+
+.kepsav-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Gradient border a képekre */
+.kepsav-item::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  padding: 2px;
+  background: linear-gradient(
+    120deg,
+    transparent 30%,
+    rgba(111,211,255,0.9),
+    rgba(44,159,226,1),
+    rgba(111,211,255,0.9),
+    transparent 70%
+  );
+  background-size: 300% 300%;
+  background-position: 0% 50%;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.9;
+  transition: background-position 0.8s ease; /* Hozzáadva: hover animáció */
+}
+
+/* Hover effektek */
+.kepsav-container:hover .kepsav-track {
+  animation-play-state: paused;
+}
+
+
+
+.kepsav-item:hover::before {
+  background-position: 100% 50%; /* A border gradient mozog */
+}
+
+/* ================= JOBB OLDAL – VERTIKÁLIS CAROUSEL ================= */
+
+.klimatel-carousel {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: white;
+  min-height: 0; /* Fontos a flex gyerekeknél */
+}
+
+.klimatel-carousel h2 {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+  color: #eaf6ff;
+  text-shadow:
+    0 0 6px rgba(111,211,255,0.45),
+    0 0 14px rgba(44,159,226,0.35);
+  flex-shrink: 0;
+}
+
+.carousel-arrow {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 2.2rem;
+  color: #6fd3ff;
+  filter:
+    drop-shadow(0 0 6px rgba(111,211,255,0.6))
+    drop-shadow(0 0 16px rgba(44,159,226,0.45));
+  transition: transform 0.25s ease;
+  padding: 5px 10px;
+  margin: 5px 0;
+  flex-shrink: 0;
+}
+
+.carousel-arrow:hover {
+  transform: scale(1.2);
+}
+
+.carousel-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0px;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.carousel-content img {
+  width: 380px;
+  height: 320px;
+  object-fit: cover;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.carousel-content h2 {
+  font-size: 1.8rem;
+  margin: 5px 0;
+}
+
+.carousel-content p {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: rgba(255,255,255,0.75);
+  max-width: 380px;
+  margin: 0;
+}
+
+/* ================= MOBIL ================= */
+
+@media (max-width: 900px) {
+  .klimatelbody {
+    min-height: 100vh;
+    display: block; /* Váltás flex-ről block-ra mobilon */
+  }
+  
+  .klimatel-body {
+    min-height: calc(100vh - 80px); /* Navbar magasság */
+    display: block;
+  }
+  
+  .klimatel-container {
+    flex-direction: column;
+    display: block;
+    min-height: calc(100vh - 80px - 60px); /* Navbar + Footer */
+  }
+  
+  .klimatel-left,
+  .klimatel-carousel {
+    width: 100%;
+    display: block;
+  }
+  
+  .klimatel-left {
+    padding: 16px;
+    padding-top: 80px;
+    height: auto;
+    min-height: 50vh; /* Minimum magasság */
+  }
+  
+  .klimatel-title {
+    font-size: 2.5rem;
+    margin: 0 0 20px 0;
+    text-align: center;
+  }
+  
+  .telepites-szoveg {
+    justify-content: flex-start;
+    min-height: 200px; /* Minimum magasság */
+    margin-bottom: 30px;
+  }
+  
+  .telepites-szoveg p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    max-width: 100%;
+  }
+  
+  /* KÉPSÁV - MOST MÁR LÁTHATÓ LESZ */
+  .kepsav-container {
+    height: 160px;
+    margin: 30px auto; /* Középre és margó */
+    width: 95%; /* Kicsit keskenyebb */
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative !important;
+  }
+  
+  .kepsav-item {
+    width: 200px;
+  }
+  
+  .kepsav-track {
+    animation-duration: 40s;
+  }
+  
+  .klimatel-carousel {
+    padding: 40px 20px;
+    min-height: 50vh; /* Minimum magasság */
+    height: auto;
+  }
+  
+  .carousel-content img {
+    width: 300px;
+    height: 225px;
+  }
+  
+  .carousel-content h2 {
+    font-size: 1.6rem;
+  }
+  
+  .carousel-content p {
+    font-size: 0.9rem;
+    max-width: 300px;
+  }
+  
+  .klimatel-carousel h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  
+  /* Fixáljuk a háttér overlay-t mobilon is */
+  .klimatelbody::after {
+    position: fixed;
+    height: 100vh; /* Mindig 100% magasság */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+/* ================= NAGYOBB KÉPERNYŐK - ARÁNYOS NÖVELÉS ================= */
+
+/* 1920x1080 (Full HD) */
+@media (min-width: 1920px) {
+  .klimatel-body {
+    height: calc(100vh - 100px);
+  }
+
+  .klimatel-title {
+    font-size: 4.2rem;
+    top: 25px;
+    left: 24px;
+  }
+
+  .klimatel-left {
+    padding: 24px;
+    padding-top: 100px;
+  }
+
+  .telepites-szoveg p {
+    font-size: 1.8rem;
+    line-height: 2;
+    margin-bottom: 28px;
+    max-width: 85%;
+  }
+
+  .kepsav-container {
+    height: 220px;
+    border-radius: 22px;
+  }
+
+  .kepsav-item {
+    width: 300px;
+  }
+
+  .kepsav-container::before,
+  .kepsav-container::after {
+    width: 80px;
+  }
+
+  .kepsav-track {
+    animation-duration: 35s;
+  }
+
+  .klimatel-carousel {
+    padding: 100px 32px; /* Kisebb padding */
+  }
+
+  .klimatel-carousel h2 {
+    font-size: 2.6rem;
+    margin-bottom: 15px;
+  }
+
+  .carousel-content {
+    gap: 15px;
+  }
+
+  .carousel-content img {
+    width: 450px;
+    height: 337px;
+  }
+
+  .carousel-content h2 {
+    font-size: 2.5rem;
+  }
+
+  .carousel-content p {
+    font-size: 1.3rem;
+    max-width: 450px;
+  }
+
+  .carousel-arrow {
+    font-size: 2.6rem;
+    padding: 8px 12px;
+    margin: 8px 0;
+  }
+}
+
+/* 2560x1440 (2K) */
+@media (min-width: 2560px) {
+  .klimatel-body {
+    height: calc(100vh - 120px);
+  }
+
+  .klimatel-title {
+    font-size: 5.2rem;
+    top: 30px;
+    left: 32px;
+  }
+
+  .klimatel-left {
+    padding: 32px;
+    padding-top: 120px;
+  }
+
+  .telepites-szoveg p {
+    font-size: 2.2rem;
+    line-height: 2.2;
+    margin-bottom: 32px;
+    max-width: 80%;
+  }
+
+  .kepsav-container {
+    height: 260px;
+    border-radius: 26px;
+  }
+
+  .kepsav-item {
+    width: 360px;
+  }
+
+  .kepsav-container::before,
+  .kepsav-container::after {
+    width: 100px;
+  }
+
+  .kepsav-track {
+    animation-duration: 40s;
+  }
+
+  .klimatel-carousel {
+    padding: 120px 40px;
+  }
+
+  .klimatel-carousel h2 {
+    font-size: 4rem;
+    margin-bottom: 20px;
+  }
+
+  .carousel-content {
+    gap: 18px;
+  }
+
+  .carousel-content img {
+    width: 550px;
+    height: 412px;
+  }
+
+  .carousel-content h2 {
+    font-size: 3rem;
+  }
+
+  .carousel-content p {
+    font-size: 2rem;
+    max-width: 550px;
+  }
+
+  .carousel-arrow {
+    font-size: 3.2rem;
+    padding: 10px 15px;
+    margin: 10px 0;
+  }
+}
+
+/* 3440x1440 (UltraWide) */
+@media (min-width: 3440px) {
+  .klimatel-body {
+    height: calc(100vh - 140px);
+  }
+
+  .klimatel-title {
+    font-size: 6.2rem;
+  }
+
+  .klimatel-left {
+    padding: 40px;
+  }
+
+  .telepites-szoveg p {
+    font-size: 2.6rem;
+    line-height: 2;
+    margin-bottom: 20px;
+    max-width: 75%;
+  }
+
+  .kepsav-container {
+    height: 300px;
+    border-radius: 30px;
+  }
+
+  .kepsav-item {
+    width: 420px;
+  }
+
+  .kepsav-container::before,
+  .kepsav-container::after {
+    width: 120px;
+  }
+
+  .kepsav-track {
+    animation-duration: 45s;
+  }
+
+  .klimatel-carousel {
+    padding: 100px 50px;
+  }
+
+  .klimatel-carousel h2 {
+    font-size: 3.8rem;
+    margin-bottom: 25px;
+  }
+
+  .carousel-content {
+    gap: 21px;
+  }
+
+  .carousel-content img {
+    width: 650px;
+    height: 487px;
+  }
+
+  .carousel-content h2 {
+    font-size: 3.5rem;
+  }
+
+  .carousel-content p {
+    font-size: 2rem;
+    max-width: 650px;
+  }
+
+  .carousel-arrow {
+    font-size: 3.8rem;
+    padding: 12px 18px;
+    margin: 12px 0;
+  }
+}
+
+/* 4K és nagyobb (3840px+) */
+@media (min-width: 3840px) {
+  .klimatel-body {
+    height: calc(100vh - 160px);
+  }
+
+  .klimatel-title {
+    font-size: 7.2rem;
+    top: 40px;
+    left: 48px;
+  }
+
+  .klimatel-left {
+    padding: 48px;
+    padding-top: 160px;
+  }
+
+  .telepites-szoveg p {
+    font-size: 3rem;
+    line-height: 2.6;
+    margin-bottom: 40px;
+    max-width: 70%;
+  }
+
+  .kepsav-container {
+    height: 340px;
+    border-radius: 34px;
+  }
+
+  .kepsav-item {
+    width: 480px;
+  }
+
+  .kepsav-container::before,
+  .kepsav-container::after {
+    width: 140px;
+  }
+
+  .kepsav-track {
+    animation-duration: 50s;
+  }
+
+  .klimatel-carousel {
+    padding: 70px 60px;
+  }
+
+  .klimatel-carousel h2 {
+    font-size: 4.4rem;
+    margin-bottom: 30px;
+  }
+
+  .carousel-content {
+    gap: 24px;
+  }
+
+  .carousel-content img {
+    width: 750px;
+    height: 562px;
+  }
+
+  .carousel-content h2 {
+    font-size: 3.4rem;
+  }
+
+  .carousel-content p {
+    font-size: 1.7rem;
+    max-width: 750px;
+  }
+
+  .carousel-arrow {
+    font-size: 4.4rem;
+    padding: 14px 21px;
+    margin: 14px 0;
+  }
+}
+
+/* Extra nagy UltraWide (5120px+) */
+@media (min-width: 5120px) {
+  .klimatel-body {
+    height: calc(100vh - 180px);
+  }
+
+  .klimatel-title {
+    font-size: 8.2rem;
+    top: 45px;
+    left: 56px;
+  }
+
+  .klimatel-left {
+    padding: 56px;
+    padding-top: 180px;
+  }
+
+  .telepites-szoveg p {
+    font-size: 3.4rem;
+    line-height: 2.8;
+    margin-bottom: 44px;
+    max-width: 65%;
+  }
+
+  .kepsav-container {
+    height: 380px;
+    border-radius: 38px;
+  }
+
+  .kepsav-item {
+    width: 540px;
+  }
+
+  .kepsav-container::before,
+  .kepsav-container::after {
+    width: 160px;
+  }
+
+  .kepsav-track {
+    animation-duration: 55s;
+  }
+
+  .klimatel-carousel {
+    padding: 80px 70px;
+  }
+
+  .klimatel-carousel h2 {
+    font-size: 5rem;
+    margin-bottom: 35px;
+  }
+
+  .carousel-content {
+    gap: 27px;
+  }
+
+  .carousel-content img {
+    width: 850px;
+    height: 637px;
+  }
+
+  .carousel-content h2 {
+    font-size: 3.8rem;
+  }
+
+  .carousel-content p {
+    font-size: 1.9rem;
+    max-width: 850px;
+  }
+
+  .carousel-arrow {
+    font-size: 5rem;
+    padding: 16px 24px;
+    margin: 16px 0;
+  }
+}
+
+
+
+/* ================= KLÍMA KARBANTARTÁS ================= */
+
+.klimakarbody {
+  position: relative;
+  min-height: 100svh;
+  min-height: 100dvh;
+  min-height: 100vh;
+  width: 100%;
+  background-image: url("pic/klimakar1.webp");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow-x: hidden;
+}
+
+/* overlay - KITÖLTJÜK A TELJES OLDALT */
+.klimakarbody::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    radial-gradient(
+      ellipse at 82% 28%,
+      rgba(44,159,226,0.35) 10%,
+      rgba(44,159,226,0.25) 20%,
+      rgba(30,79,163,0.18) 35%,
+      rgba(11,42,111,0.25) 40%,
+      rgba(7,22,74,0.55) 60%,
+      rgba(5,11,44,0.85) 85%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(5,11,44,0.95) 15%,
+      rgba(7,22,74,0.9) 30%,
+      rgba(11,42,111,0.65) 50%,
+      rgba(30,79,163,0.45) 70%,
+      rgba(44,159,226,0.25) 100%
+    );
+}
+
+.klimakarbody > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* MAIN - TÖBB TÉR A NAVBAR ALATT */
+.klimakar-main {
+  min-height: calc(100vh - 80px);
+  padding: 40px 24px 40px; /* FELÜL 40px TÉR A NAVBAR ALATT */
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* TITLE - TÖBB MARGIN FELÜL */
+.klimatel-title {
+  font-size: 3.4rem;
+  color: #ffffff;
+  margin-bottom: 40px; /* TÖBB TÉR ALUL */
+  margin-top: 0; /* NINCS FELSŐ MARGIN */
+}
+
+/* TEXT */
+.klimakar-main p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.75);
+  margin-top: 0; /* NINCS FELSŐ MARGIN */
+}
+
+.klimakar-main h3 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: #fff;
+  margin-top: 0; /* NINCS FELSŐ MARGIN */
+}
+
+.klimakar-main ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 0; /* NINCS FELSŐ MARGIN */
+}
+
+.klimakar-main ul li {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.75);
+  margin-bottom: 8px;
+}
+
+/* ================= KÁRTYA ALAP ================= */
+
+.bel,
+.kul,
+.karmiert {
+  position: relative;
+  border-radius: 18px;
+  padding: 25px;
+  background: rgba(4, 4, 4, 0.08);
+  backdrop-filter: blur(2px);
+  border: 1px solid rgba(111,211,255,0.18);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.45);
+  overflow: hidden;
+  isolation: isolate;
+  transition: all 0.5s ease;
+  margin-top: 0; /* NINCS FELSŐ MARGIN */
+}
+
+.bel::before,
+.kul::before,
+.karmiert::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(
+    120deg,
+    transparent 30%,
+    rgba(111,211,255,0.9),
+    rgba(44,159,226,1),
+    rgba(111,211,255,0.9),
+    transparent 70%
+  );
+  background-size: 300% 300%;
+  background-position: 0% 50%;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  transition: background-position 0.8s ease;
+}
+
+.bel:hover,
+.kul:hover,
+.karmiert:hover {
+  transform: translateY(-15px);
+  box-shadow:
+    0 20px 50px rgba(0,0,0,0.55),
+    0 0 90px rgba(44,159,226,0.75);
+  background: rgba(4, 4, 4, 0.27);
+  backdrop-filter: blur(6px);
+}
+
+.bel:hover::before,
+.kul:hover::before,
+.karmiert:hover::before,
+.karpic:hover::before {
+  background-position: 100% 50%;
+}
+
+/* ================= ELRENDEZÉS ================= */
+
+.karserv {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  margin-top: 50px;
+}
+
+.bel,
+.kul {
+  width: 50%;
+  flex: 1;
+}
+
+.karpic {
+  min-height: 300px;
+  margin-top: 10px;
+}
+
+.karmiert {
+  width: 100%;
+  margin-top: 10px;
+}
+
+/* ===== KÁRTYÁS CAROUSEL ===== */
+
+.kar-carousel {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+/* MOZGÓ SÁV */
+.kar-carousel-track {
+  display: flex;
+  width: max-content;
+  animation: karMarquee 30s linear infinite;
+}
+
+/* KÉP KÁRTYA */
+.kar-img-card {
+  position: relative;
+  width: 250px;
+  height: 250px;
+  flex-shrink: 0;
+  margin-right: 24px;
+  border-radius: 18px;
+  overflow: hidden;
+  background: rgba(4, 4, 4, 0.08);
+  backdrop-filter: blur(2px);
+  border: 1px solid rgba(111,211,255,0.25);
+  box-shadow:
+    0 12px 35px rgba(0,0,0,0.45),
+    0 0 35px rgba(44,159,226,0.35);
+  transition: all 0.4s ease;
+}
+
+/* KÉP */
+.kar-img-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}
+
+/* ===== FUTÓ FÉNYCSÍK ===== */
+
+.kar-img-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(
+    120deg,
+    transparent 30%,
+    rgba(111,211,255,0.9),
+    rgba(44,159,226,1),
+    rgba(111,211,255,0.9),
+    transparent 70%
+  );
+  background-size: 300% 300%;
+  background-position: 0% 50%;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0.9;
+  pointer-events: none;
+  transition: background-position 0.8s ease;
+}
+
+/* HOVER */
+@media (hover: hover) {
+  .kar-img-card:hover {
+    box-shadow:
+      0 20px 50px rgba(0,0,0,0.55),
+      0 0 90px rgba(44,159,226,0.75);
+    background: rgba(4, 4, 4, 0.27);
+    backdrop-filter: blur(6px);
+  }
+
+  .kar-img-card:hover::before {
+    background-position: 100% 50%;
+  }
+}
+
+/* ===== VÉGTELEN MOZGÁS ===== */
+@keyframes karMarquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.below-hint {
+  margin-top: 10px;
+  text-align: center;
+  font-size: 1.1rem;
+  color: rgba(255,255,255,0.85);
+}
+
+/* ================= MOBIL ================= */
+
+@media (max-width: 900px) {
+  .karserv {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .bel,
+  .kul {
+    width: 100%;
+  }
+
+  .bel:hover,
+  .kul:hover,
+  .karmiert:hover,
+  .karpic:hover {
+    transform: none;
+  }
+
+  .kar-img-card {
+    width: 200px;
+    height: 200px;
+    margin-right: 16px;
+  }
+
+  .kar-carousel-track {
+    animation-duration: 40s;
+  }
+
+  .klimakar-main {
+    padding-top: 50px; /* MOBILON IS TÖBB TÉR */
+    padding-bottom: 40px;
+    gap: 25px;
+  }
+
+  .klimatel-title {
+    font-size: 2.8rem;
+    margin-bottom: 15px;
+  }
+}
+
+@media (max-width: 600px) {
+  .klimakar-main {
+    padding: 40px 16px 30px; /* MÓDOSÍTOTT PADDING */
+    gap: 20px;
+  }
+
+  .klimatel-title {
+    font-size: 2.4rem;
+    margin-bottom: 15px;
+  }
+
+  .klimakar-main h3 {
+    font-size: 1.3rem;
+    margin-bottom: 12px;
+  }
+
+  .klimakar-main p,
+  .klimakar-main ul li {
+    font-size: 1rem;
+  }
+
+  .kar-img-card {
+    width: 180px;
+    height: 180px;
+  }
+}
+
+/* ================= LARGE SCREENS - ARÁNYOS NÖVELÉS ================= */
+
+/* 1920x1080 (Full HD) */
+@media (min-width: 1920px) {
+  .klimakar-main {
+    min-height: calc(100vh - 100px);
+    padding: 80px 60px 60px; /* FELÜL 80px TÉR */
+    gap: 40px;
+  }
+
+  .klimatel-title {
+    font-size: 4.5rem;
+    margin-bottom: 25px; /* TÖBB TÉR ALUL */
+    margin-top: 20px;
+  }
+
+  .klimakar-main h3 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+
+  .klimakar-main p,
+  .klimakar-main ul li {
+    font-size: 1.4rem;
+    line-height: 1.7;
+  }
+
+  .bel,
+  .kul,
+  .karmiert {
+    padding: 35px 30px;
+    border-radius: 22px;
+  }
+
+  .karserv {
+    gap: 40px;
+    margin-top: 70px;
+  }
+
+  .kar-img-card {
+    width: 300px;
+    height: 300px;
+    margin-right: 30px;
+    border-radius: 22px;
+  }
+
+  .below-hint {
+    font-size: 1.4rem;
+    margin-top: 20px;
+  }
+}
+
+/* 2560x1440 (2K) */
+@media (min-width: 2560px) {
+  .klimakar-main {
+    min-height: calc(100vh - 120px);
+    padding: 100px 80px 70px; /* FELÜL 100px TÉR */
+    gap: 50px;
+  }
+
+  .klimatel-title {
+    font-size: 5.5rem;
+    margin-bottom: 30px; /* TÖBB TÉR ALUL */
+    margin-top: 30px;
+  }
+
+  .klimakar-main h3 {
+    font-size: 2.5rem;
+    margin-bottom: 25px;
+  }
+
+  .klimakar-main p,
+  .klimakar-main ul li {
+    font-size: 1.8rem;
+    line-height: 1.8;
+  }
+
+  .bel,
+  .kul,
+  .karmiert {
+    padding: 45px 40px;
+    border-radius: 28px;
+  }
+
+  .karserv {
+    gap: 50px;
+    margin-top: 60px;
+  }
+
+  .kar-img-card {
+    width: 350px;
+    height: 350px;
+    margin-right: 35px;
+    border-radius: 28px;
+  }
+
+  .below-hint {
+    font-size: 2rem;
+    margin-top: 25px;
+  }
+
+  /* Border gradient thickness increase */
+  .bel::before,
+  .kul::before,
+  .karmiert::before,
+  .kar-img-card::before {
+    padding: 3px;
+  }
+
+  .bel:hover,
+  .kul:hover,
+  .karmiert:hover {
+    transform: translateY(-20px);
+  }
+}
+
+/* 3440x1440 (UltraWide) */
+@media (min-width: 3440px) {
+  .klimakar-main {
+    min-height: calc(100vh - 140px);
+    padding: 120px 100px 80px; /* FELÜL 120px TÉR */
+    gap: 60px;
+  }
+
+  .klimatel-title {
+    font-size: 6.5rem;
+    margin-bottom: 35px; /* TÖBB TÉR ALUL */
+    margin-top: 70px;
+  }
+
+  .klimakar-main h3 {
+    font-size: 3rem;
+    margin-bottom: 30px;
+  }
+
+  .klimakar-main p,
+  .klimakar-main ul li {
+    font-size: 2.2rem;
+    line-height: 1.9;
+  }
+
+  .bel,
+  .kul,
+  .karmiert {
+    padding: 55px 50px;
+    border-radius: 35px;
+  }
+
+  .karserv {
+    gap: 60px;
+    margin-top: 110px;
+  }
+
+  .kar-img-card {
+    width: 400px;
+    height: 400px;
+    margin-right: 40px;
+    border-radius: 35px;
+  }
+
+  .below-hint {
+    font-size: 2.2rem;
+    margin-top: 30px;
+  }
+
+  /* Border gradient thickness increase */
+  .bel::before,
+  .kul::before,
+  .karmiert::before,
+  .kar-img-card::before {
+    padding: 4px;
+  }
+
+  /* Hover effects scaling */
+  .bel:hover,
+  .kul:hover,
+  .karmiert:hover {
+    transform: translateY(-25px);
+    box-shadow:
+      0 25px 60px rgba(0,0,0,0.6),
+      0 0 120px rgba(44, 159, 226, 0.8);
+  }
+
+  .kar-img-card:hover {
+    box-shadow:
+      0 25px 60px rgba(0,0,0,0.6),
+      0 0 120px rgba(44,159,226,0.8);
+  }
+}
+
+/* 4K és nagyobb (3840px+) */
+@media (min-width: 3840px) {
+  .klimakar-main {
+    min-height: calc(100vh - 160px);
+    padding: 140px 120px 90px; /* FELÜL 140px TÉR */
+    gap: 70px;
+  }
+
+  .klimatel-title {
+    font-size: 7.5rem;
+    margin-bottom: 40px; /* TÖBB TÉR ALUL */
+  }
+
+  .klimakar-main h3 {
+    font-size: 3.5rem;
+    margin-bottom: 35px;
+  }
+
+  .klimakar-main p,
+  .klimakar-main ul li {
+    font-size: 2.6rem;
+    line-height: 2.0;
+  }
+
+  .bel,
+  .kul,
+  .karmiert {
+    padding: 65px 60px;
+    border-radius: 42px;
+  }
+
+  .karserv {
+    gap: 70px;
+    margin-top: 50px;
+  }
+
+  .kar-img-card {
+    width: 450px;
+    height: 450px;
+    margin-right: 45px;
+    border-radius: 42px;
+  }
+
+  .below-hint {
+    font-size: 2.6rem;
+    margin-top: 35px;
+  }
+
+  /* Border gradient thickness increase */
+  .bel::before,
+  .kul::before,
+  .karmiert::before,
+  .kar-img-card::before {
+    padding: 5px;
+  }
+}
+
+/* Extra nagy UltraWide (5120px+) */
+@media (min-width: 5120px) {
+  .klimakar-main {
+    min-height: calc(100vh - 180px);
+    padding: 160px 140px 100px; /* FELÜL 160px TÉR */
+    gap: 80px;
+  }
+
+  .klimatel-title {
+    font-size: 8.5rem;
+    margin-bottom: 45px; /* TÖBB TÉR ALUL */
+  }
+
+  .klimakar-main h3 {
+    font-size: 4rem;
+    margin-bottom: 40px;
+  }
+
+  .klimakar-main p,
+  .klimakar-main ul li {
+    font-size: 3rem;
+    line-height: 2.1;
+  }
+
+  .bel,
+  .kul,
+  .karmiert {
+    padding: 75px 70px;
+    border-radius: 50px;
+  }
+
+  .karserv {
+    gap: 80px;
+    margin-top: 60px;
+  }
+
+  .kar-img-card {
+    width: 500px;
+    height: 500px;
+    margin-right: 50px;
+    border-radius: 50px;
+  }
+
+  .below-hint {
+    font-size: 3rem;
+    margin-top: 40px;
+  }
+
+  .bel::before,
+  .kul::before,
+  .karmiert::before,
+  .kar-img-card::before {
+    padding: 6px;
+  }
+}
+
+
+/* ================= CONTACT ================= */
+
+.contactbody {
+  position: relative;
+  min-height: 100svh;
+  min-height: 100dvh;
+  min-height: 100vh;
+  background-image: url("pic/contactbckg1.webp");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow-x: hidden;
+}
+
+/* overlay */
+.contactbody::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    radial-gradient(
+      ellipse at 82% 28%,
+      rgba(44,159,226,0.35) 10%,
+      rgba(44,159,226,0.25) 20%,
+      rgba(30,79,163,0.18) 35%,
+      rgba(11,42,111,0.25) 40%,
+      rgba(7,22,74,0.55) 60%,
+      rgba(5,11,44,0.85) 85%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(5,11,44,0.95) 15%,
+      rgba(7,22,74,0.9) 30%,
+      rgba(11,42,111,0.65) 50%,
+      rgba(30,79,163,0.45) 70%,
+      rgba(44,159,226,0.25) 100%
+    );
+}
+
+.contactbody > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* MAIN */
+.contact-main {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+/* KÁRTYA */
+.contact-card {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  padding: 40px 32px;
+  border-radius: 22px;
+  background: rgba(4, 4, 4, 0.08);
+  backdrop-filter: blur(2px);
+  border: 1px solid rgba(111,211,255,0.18);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.45);
+  overflow: hidden;
+  isolation: isolate;
+  text-align: center;
+  transition: all 0.5s ease;
+}
+
+/* FUTÓ FÉNYCSÍK */
+.contact-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(
+    120deg,
+    transparent 30%,
+    rgba(111,211,255,0.9),
+    rgba(44,159,226,1),
+    rgba(111,211,255,0.9),
+    transparent 70%
+  );
+  background-size: 300% 300%;
+  background-position: 0% 50%;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.9;
+  transition: background-position 0.8s ease;
+}
+
+/* CÍM */
+.contact-card h1 {
+  font-size: 2.8rem;
+  margin-bottom: 32px;
+  background: linear-gradient(
+    135deg,
+    #6fd3ff 0%,
+    #2c9fe2 40%,
+    #1b6fb8 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: none;
+}
+
+.contact-card h3{
+
+    color: #eaf6ff;
+      text-shadow:
+    0 0 6px rgba(111,211,255,0.45),
+    0 0 14px rgba(44,159,226,0.35);
+    font-size: 1.6rem;
+}
+
+/* ELEMEK */
+.contact-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 30px;
+  font-size: 1.2rem;
+  flex-direction: column;
+}
+
+.contact-item span {
+  font-size: 1.4rem;
+  filter:
+    drop-shadow(0 0 6px rgba(111,211,255,0.6))
+    drop-shadow(0 0 16px rgba(44,159,226,0.45));
+}
+
+.contact-item a {
+  color: #eaf6ff;
+  text-decoration: none;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+  align-items: center;
+  display: inline-flex;
+  text-shadow:
+    0 0 6px rgba(111,211,255,0.45),
+    0 0 14px rgba(44,159,226,0.35);
+}
+
+.contact-item svg {
+  margin-right: 10px;
+  filter:
+    drop-shadow(0 0 4px rgba(111,211,255,0.6))
+    drop-shadow(0 0 10px rgba(44,159,226,0.4));
+  transition: filter 0.3s ease;
+}
+
+/* ALAP HOVER EFFEKTEK - Ezek mindig alkalmazva vannak */
+.contact-card:hover {
+  transform: translateY(-20px);
+  box-shadow:
+    0 20px 50px rgba(0,0,0,0.55),
+    0 0 90px rgba(44,159,226,0.75);
+  background: rgba(4, 4, 4, 0.27);
+  backdrop-filter: blur(6px);
+}
+
+.contact-card:hover::before {
+  background-position: 100% 50%;
+}
+
+.contact-item a:hover {
+  color: #6fd3ff;
+  text-shadow:
+    0 0 10px rgba(111,211,255,0.75),
+    0 0 22px rgba(44,159,226,0.6);
+}
+
+.contact-item a:hover svg {
+  filter:
+    drop-shadow(0 0 6px rgba(111,211,255,0.8))
+    drop-shadow(0 0 15px rgba(44,159,226,0.6));
+}
+
+/* MOBIL */
+@media (max-width: 600px) {
+  .contact-card {
+    padding: 32px 22px;
+  }
+
+  .contact-card h1 {
+    font-size: 2.2rem;
+    margin-bottom: 28px;
+  }
+
+  .contact-item {
+    font-size: 1.05rem;
+    margin-bottom: 18px;
+    gap: 10px;
+  }
+}
+
+/* ================= LARGE SCREENS ================= */
+
+/* 1920x1080 (Full HD) */
+@media (min-width: 1920px) {
+  .contact-main {
+    min-height: calc(100vh - 100px);
+    padding: 60px 40px;
+  }
+
+  .contact-card {
+    max-width: 650px;
+    padding: 50px 40px;
+    border-radius: 26px;
+    background: rgba(4, 4, 4, 0.08);
+    backdrop-filter: blur(2px);
+    border: 1px solid rgba(111,211,255,0.18);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.45);
+    transition: all 0.5s ease;
+  }
+
+  /* FUTÓ FÉNYCSÍK - ITT IS ÚJRA DEFINIÁLVA */
+  .contact-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 3px;
+    background: linear-gradient(
+      120deg,
+      transparent 30%,
+      rgba(111,211,255,0.9),
+      rgba(44,159,226,1),
+      rgba(111,211,255,0.9),
+      transparent 70%
+    );
+    background-size: 300% 300%;
+    background-position: 0% 50%;
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0.9;
+    transition: background-position 0.8s ease;
+  }
+
+  .contact-card h1 {
+    font-size: 3.8rem;
+    margin-bottom: 40px;
+    background: linear-gradient(
+      135deg,
+      #6fd3ff 0%,
+      #2c9fe2 40%,
+      #1b6fb8 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .contact-item {
+    font-size: 1.6rem;
+    margin-bottom: 28px;
+    gap: 16px;
+  }
+
+  .contact-item span {
+    font-size: 1.8rem;
+    filter:
+      drop-shadow(0 0 8px rgba(111,211,255,0.6))
+      drop-shadow(0 0 18px rgba(44,159,226,0.45));
+  }
+
+  .contact-item a {
+    text-shadow:
+      0 0 8px rgba(111,211,255,0.45),
+      0 0 16px rgba(44,159,226,0.35);
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+  }
+
+  .contact-item svg {
+    width: 30px;
+    height: 30px;
+    margin-right: 12px;
+    filter:
+      drop-shadow(0 0 5px rgba(111,211,255,0.6))
+      drop-shadow(0 0 12px rgba(44,159,226,0.4));
+    transition: filter 0.3s ease;
+  }
+
+  /* HOVER EFFEKTEK - ÚJRA DEFINIÁLVA */
+  .contact-card:hover {
+    transform: translateY(-25px);
+    box-shadow:
+      0 20px 50px rgba(0,0,0,0.55),
+      0 0 90px rgba(44,159,226,0.75);
+    background: rgba(4, 4, 4, 0.27);
+    backdrop-filter: blur(6px);
+  }
+
+  .contact-card:hover::before {
+    background-position: 100% 50%;
+  }
+
+  .contact-item a:hover {
+    color: #6fd3ff;
+    text-shadow:
+      0 0 12px rgba(111,211,255,0.75),
+      0 0 24px rgba(44,159,226,0.6);
+  }
+
+  .contact-item a:hover svg {
+    filter:
+      drop-shadow(0 0 6px rgba(111,211,255,0.8))
+      drop-shadow(0 0 15px rgba(44,159,226,0.6));
+  }
+}
+
+/* 2560x1440 (2K) */
+@media (min-width: 2560px) {
+  .contact-main {
+    min-height: calc(100vh - 120px);
+    padding: 80px 60px;
+  }
+
+  .contact-card {
+    max-width: 800px;
+    padding: 60px 50px;
+    border-radius: 32px;
+    background: rgba(4, 4, 4, 0.08);
+    backdrop-filter: blur(2px);
+    border: 1px solid rgba(111,211,255,0.18);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.45);
+    transition: all 0.5s ease;
+  }
+
+  /* FUTÓ FÉNYCSÍK */
+  .contact-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 4px;
+    background: linear-gradient(
+      120deg,
+      transparent 30%,
+      rgba(111,211,255,0.9),
+      rgba(44,159,226,1),
+      rgba(111,211,255,0.9),
+      transparent 70%
+    );
+    background-size: 300% 300%;
+    background-position: 0% 50%;
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0.9;
+    transition: background-position 0.8s ease;
+  }
+
+  .contact-card h1 {
+    font-size: 4.8rem;
+    margin-bottom: 50px;
+    background: linear-gradient(
+      135deg,
+      #6fd3ff 0%,
+      #2c9fe2 40%,
+      #1b6fb8 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+
+  .contact-item {
+    font-size: 2rem;
+    margin-bottom: 32px;
+    gap: 18px;
+  }
+
+
+
+  .contact-item span {
+    font-size: 2.2rem;
+    filter:
+      drop-shadow(0 0 10px rgba(111,211,255,0.6))
+      drop-shadow(0 0 20px rgba(44,159,226,0.45));
+  }
+
+  .contact-item a {
+    text-shadow:
+      0 0 10px rgba(111,211,255,0.45),
+      0 0 18px rgba(44,159,226,0.35);
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+  }
+
+  .contact-item svg {
+    width: 35px;
+    height: 35px;
+    margin-right: 14px;
+    filter:
+      drop-shadow(0 0 6px rgba(111,211,255,0.6))
+      drop-shadow(0 0 14px rgba(44,159,226,0.4));
+    transition: filter 0.3s ease;
+  }
+
+  /* HOVER EFFEKTEK */
+  .contact-card:hover {
+    transform: translateY(-30px);
+    box-shadow:
+      0 25px 60px rgba(0,0,0,0.6),
+      0 0 120px rgba(44, 159, 226, 0.8);
+    background: rgba(4, 4, 4, 0.27);
+    backdrop-filter: blur(6px);
+  }
+
+  .contact-card:hover::before {
+    background-position: 100% 50%;
+  }
+
+  .contact-item a:hover {
+    color: #6fd3ff;
+    text-shadow:
+      0 0 14px rgba(111,211,255,0.75),
+      0 0 26px rgba(44,159,226,0.6);
+  }
+  
+  .contact-item a:hover svg {
+    filter:
+      drop-shadow(0 0 8px rgba(111,211,255,0.8))
+      drop-shadow(0 0 18px rgba(44,159,226,0.6));
+  }
+}
+
+/* 3440x1440 (UltraWide) */
+@media (min-width: 3440px) {
+  .contact-main {
+    min-height: calc(100vh - 140px);
+    padding: 100px 80px;
+  }
+
+  .contact-card {
+    max-width: 950px;
+    padding: 70px 60px;
+    border-radius: 38px;
+    background: rgba(4, 4, 4, 0.08);
+    backdrop-filter: blur(2px);
+    border: 1px solid rgba(111,211,255,0.18);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.45);
+    transition: all 0.5s ease;
+  }
+
+  /* FUTÓ FÉNYCSÍK */
+  .contact-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 5px;
+    background: linear-gradient(
+      120deg,
+      transparent 30%,
+      rgba(111,211,255,0.9),
+      rgba(44,159,226,1),
+      rgba(111,211,255,0.9),
+      transparent 70%
+    );
+    background-size: 300% 300%;
+    background-position: 0% 50%;
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0.9;
+    transition: background-position 0.8s ease;
+  }
+
+  .contact-card h1 {
+    font-size: 5.8rem;
+    margin-bottom: 60px;
+    background: linear-gradient(
+      135deg,
+      #6fd3ff 0%,
+      #2c9fe2 40%,
+      #1b6fb8 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .contact-item {
+    font-size: 2.4rem;
+    margin-bottom: 38px;
+    gap: 20px;
+  }
+
+  .contact-item span {
+    font-size: 2.6rem;
+    filter:
+      drop-shadow(0 0 12px rgba(111,211,255,0.6))
+      drop-shadow(0 0 22px rgba(44,159,226,0.45));
+  }
+
+  .contact-item a {
+    text-shadow:
+      0 0 12px rgba(111,211,255,0.45),
+      0 0 20px rgba(44,159,226,0.35);
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+  }
+
+  .contact-item svg {
+    width: 40px;
+    height: 40px;
+    margin-right: 16px;
+    filter:
+      drop-shadow(0 0 7px rgba(111,211,255,0.6))
+      drop-shadow(0 0 16px rgba(44,159,226,0.4));
+    transition: filter 0.3s ease;
+  }
+
+  /* HOVER EFFEKTEK */
+  .contact-card:hover {
+    transform: translateY(-35px);
+    box-shadow:
+      0 30px 70px rgba(0,0,0,0.65),
+      0 0 150px rgba(44, 159, 226, 0.85);
+    background: rgba(4, 4, 4, 0.27);
+    backdrop-filter: blur(6px);
+  }
+
+  .contact-card:hover::before {
+    background-position: 100% 50%;
+  }
+
+  .contact-item a:hover {
+    color: #6fd3ff;
+    text-shadow:
+      0 0 16px rgba(111,211,255,0.75),
+      0 0 30px rgba(44,159,226,0.6);
+  }
+
+  .contact-item a:hover svg {
+    filter:
+      drop-shadow(0 0 9px rgba(111,211,255,0.8))
+      drop-shadow(0 0 20px rgba(44,159,226,0.6));
+  }
+}
+
+/* 4K és nagyobb (3840px+) */
+@media (min-width: 3840px) {
+  .contact-main {
+    min-height: calc(100vh - 160px);
+    padding: 120px 100px;
+  }
+
+  .contact-card {
+    max-width: 1100px;
+    padding: 80px 70px;
+    border-radius: 44px;
+    background: rgba(4, 4, 4, 0.08);
+    backdrop-filter: blur(2px);
+    border: 1px solid rgba(111,211,255,0.18);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.45);
+    transition: all 0.5s ease;
+  }
+
+  /* FUTÓ FÉNYCSÍK */
+  .contact-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 6px;
+    background: linear-gradient(
+      120deg,
+      transparent 30%,
+      rgba(111,211,255,0.9),
+      rgba(44,159,226,1),
+      rgba(111,211,255,0.9),
+      transparent 70%
+    );
+    background-size: 300% 300%;
+    background-position: 0% 50%;
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0.9;
+    transition: background-position 0.8s ease;
+  }
+
+  .contact-card h1 {
+    font-size: 6.8rem;
+    margin-bottom: 70px;
+    background: linear-gradient(
+      135deg,
+      #6fd3ff 0%,
+      #2c9fe2 40%,
+      #1b6fb8 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .contact-item {
+    font-size: 2.8rem;
+    margin-bottom: 44px;
+    gap: 22px;
+  }
+
+  .contact-item span {
+    font-size: 3rem;
+    filter:
+      drop-shadow(0 0 14px rgba(111,211,255,0.6))
+      drop-shadow(0 0 24px rgba(44,159,226,0.45));
+  }
+
+  .contact-item a {
+    text-shadow:
+      0 0 14px rgba(111,211,255,0.45),
+      0 0 22px rgba(44,159,226,0.35);
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+  }
+
+  .contact-item svg {
+    width: 45px;
+    height: 45px;
+    margin-right: 18px;
+    filter:
+      drop-shadow(0 0 8px rgba(111,211,255,0.6))
+      drop-shadow(0 0 18px rgba(44,159,226,0.4));
+    transition: filter 0.3s ease;
+  }
+
+  /* HOVER EFFEKTEK */
+  .contact-card:hover {
+    transform: translateY(-40px);
+    box-shadow:
+      0 35px 80px rgba(0,0,0,0.7),
+      0 0 180px rgba(44, 159, 226, 0.9);
+    background: rgba(4, 4, 4, 0.27);
+    backdrop-filter: blur(6px);
+  }
+
+  .contact-card:hover::before {
+    background-position: 100% 50%;
+  }
+
+  .contact-item a:hover {
+    color: #6fd3ff;
+    text-shadow:
+      0 0 18px rgba(111,211,255,0.75),
+      0 0 34px rgba(44,159,226,0.6);
+  }
+
+  .contact-item a:hover svg {
+    filter:
+      drop-shadow(0 0 10px rgba(111,211,255,0.8))
+      drop-shadow(0 0 22px rgba(44,159,226,0.6));
+  }
+}
+
+/* Extra nagy UltraWide (5120px+) */
+@media (min-width: 5120px) {
+  .contact-main {
+    min-height: calc(100vh - 180px);
+    padding: 140px 120px;
+  }
+
+  .contact-card {
+    max-width: 1250px;
+    padding: 90px 80px;
+    border-radius: 50px;
+    background: rgba(4, 4, 4, 0.08);
+    backdrop-filter: blur(2px);
+    border: 1px solid rgba(111,211,255,0.18);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.45);
+    transition: all 0.5s ease;
+  }
+
+  /* FUTÓ FÉNYCSÍK */
+  .contact-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 7px;
+    background: linear-gradient(
+      120deg,
+      transparent 30%,
+      rgba(111,211,255,0.9),
+      rgba(44,159,226,1),
+      rgba(111,211,255,0.9),
+      transparent 70%
+    );
+    background-size: 300% 300%;
+    background-position: 0% 50%;
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0.9;
+    transition: background-position 0.8s ease;
+  }
+
+  .contact-card h1 {
+    font-size: 7.8rem;
+    margin-bottom: 80px;
+    background: linear-gradient(
+      135deg,
+      #6fd3ff 0%,
+      #2c9fe2 40%,
+      #1b6fb8 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .contact-item {
+    font-size: 3.2rem;
+    margin-bottom: 50px;
+    gap: 24px;
+  }
+
+  .contact-item span {
+    font-size: 3.4rem;
+    filter:
+      drop-shadow(0 0 16px rgba(111,211,255,0.6))
+      drop-shadow(0 0 26px rgba(44,159,226,0.45));
+  }
+
+  .contact-item a {
+    text-shadow:
+      0 0 16px rgba(111,211,255,0.45),
+      0 0 24px rgba(44,159,226,0.35);
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+  }
+
+  .contact-item svg {
+    width: 50px;
+    height: 50px;
+    margin-right: 20px;
+    filter:
+      drop-shadow(0 0 9px rgba(111,211,255,0.6))
+      drop-shadow(0 0 20px rgba(44,159,226,0.4));
+    transition: filter 0.3s ease;
+  }
+
+  /* HOVER EFFEKTEK */
+  .contact-card:hover {
+    transform: translateY(-45px);
+    box-shadow:
+      0 40px 90px rgba(0,0,0,0.75),
+      0 0 210px rgba(44, 159, 226, 0.95);
+    background: rgba(4, 4, 4, 0.27);
+    backdrop-filter: blur(6px);
+  }
+
+  .contact-card:hover::before {
+    background-position: 100% 50%;
+  }
+
+  .contact-item a:hover {
+    color: #6fd3ff;
+    text-shadow:
+      0 0 20px rgba(111,211,255,0.75),
+      0 0 38px rgba(44,159,226,0.6);
+  }
+  
+  .contact-item a:hover svg {
+    filter:
+      drop-shadow(0 0 12px rgba(111,211,255,0.8))
+      drop-shadow(0 0 25px rgba(44,159,226,0.6));
+  }
+}
+
+
+
+/* ================= COOKIE BANNER ================= */
+
+.cookie-banner {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+
+  width: calc(100% - 32px);
+  max-width: 720px;
+
+  transition: all 0.4s ease;
+}
+
+.cookie-banner.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 20px);
+}
+
+/* COOKIE LISTA */
+
+.cookie-list {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0 30px;
+}
+
+.cookie-list li {
+  position: relative;
+  padding-left: 22px;
+  margin-bottom: 12px;
+
+  font-size: 1rem;
+  color: rgba(255,255,255,0.8);
+}
+
+.cookie-list li::before {
+  content: "▹";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #6fd3ff;
+  text-shadow:
+    0 0 6px rgba(111,211,255,0.6),
+    0 0 14px rgba(44,159,226,0.4);
+}
+
+
+/* KÁRTYA – UGYANAZ MINT A SZERVIZ */
+
+.cookie-card {
+  position: relative;
+  padding: 22px 26px;
+  border-radius: 18px;
+
+  background: rgba(4, 4, 4, 0.08);
+  backdrop-filter: blur(6px);
+
+  border: 1px solid rgba(111,211,255,0.18);
+  box-shadow:
+    0 15px 40px rgba(0,0,0,0.45),
+    0 0 60px rgba(44,159,226,0.25);
+
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* FUTÓ FÉNYCSÍK */
+
+.cookie-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+
+  background: linear-gradient(
+    120deg,
+    transparent 30%,
+    rgba(111,211,255,0.9),
+    rgba(44,159,226,1),
+    rgba(111,211,255,0.9),
+    transparent 70%
+  );
+
+  background-size: 300% 300%;
+  background-position: 0% 50%;
+
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+
+  pointer-events: none;
+  opacity: 0.9;
+  transition: background-position 0.8s ease;
+}
+
+/* HOVER */
+
+@media (hover: hover) {
+  .cookie-card:hover {
+    background: rgba(4, 4, 4, 0.22);
+    backdrop-filter: blur(10px);
+    box-shadow:
+      0 20px 50px rgba(0,0,0,0.55),
+      0 0 90px rgba(44,159,226,0.75);
+  }
+
+  .cookie-card:hover::before {
+    background-position: 100% 50%;
+  }
+}
+
+/* SZÖVEG */
+
+.cookie-card p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.8);
+}
+
+.cookie-card a {
+  color: #6fd3ff;
+  text-decoration: none;
+}
+
+.cookie-card a:hover {
+  text-decoration: underline;
+}
+
+/* GOMBOK */
+
+.cookie-buttons {
+  margin-top: 16px;
+  display: flex;
+  gap: 14px;
+  justify-content: flex-end;
+}
+
+.cookie-buttons button {
+  padding: 10px 24px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.cookie-accept {
+  border: none;
+  color: #fff;
+  background: linear-gradient(
+    135deg,
+    #7dd9ff 0%,
+    #3aa6f0 45%,
+    #1f6fd1 100%
+  );
+  box-shadow: 0 10px 25px rgba(44,159,226,0.35);
+}
+
+.cookie-accept:hover {
+  transform: translateY(-2px);
+}
+
+.cookie-decline {
+  background: transparent;
+  color: #eaf6ff;
+  border: 1px solid rgba(125,217,255,0.45);
+}
+
+.cookie-decline:hover {
+  background: rgba(125,217,255,0.12);
+}
+
+/* MOBIL */
+
+@media (max-width: 600px) {
+  .cookie-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+
+
+
+/* ================= PAGE LOADER ================= */
+
+#page-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    radial-gradient(
+      ellipse at 100% 40%,
+      rgba(44,159,226,0.25),
+      rgba(5,11,44,0.95) 0%
+    );
+
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+/* ELTŰNÉS */
+#page-loader.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* ÜVEG KÁRTYA */
+.loader-card {
+  position: relative;
+  padding: 40px 46px;
+  border-radius: 22px;
+
+  background: rgba(4, 4, 4, 0.12);
+  backdrop-filter: blur(10px);
+
+  border: 1px solid rgba(111,211,255,0.22);
+  box-shadow:
+    0 20px 50px rgba(0,0,0,0.55),
+    0 0 80px rgba(44,159,226,0.45);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+
+  animation: loaderPulse 2.2s ease-in-out infinite;
+}
+
+/* LOGÓ */
+.loader-card img {
+  width: 90px;
+  filter:
+    drop-shadow(0 0 12px rgba(111,211,255,0.6))
+    drop-shadow(0 0 28px rgba(44,159,226,0.45));
+}
+
+/* SZÖVEG */
+.loader-card span {
+  font-size: 1rem;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,0.85);
+}
+
+/* PULZÁLÁS */
+@keyframes loaderPulse {
+  0% {
+    transform: scale(1);
+    box-shadow:
+      0 20px 50px rgba(0,0,0,0.55),
+      0 0 60px rgba(44,159,226,0.35);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow:
+      0 30px 70px rgba(0,0,0,0.75),
+      0 0 120px rgba(44,159,226,0.85);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* MOBIL */
+@media (max-width: 600px) {
+  .loader-card {
+    padding: 32px 36px;
+  }
+
+  .loader-card img {
+    width: 70px;
+  }
+}
+
+/* ================= FOOTER ================= */
+
+.site-footer {
+  position: fixed; /* Változtatás: fixed helyett relative vagy absolute */
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  z-index: 500;
+  pointer-events: auto;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.footer-inner {
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 0.8rem;
+  letter-spacing: 0.4px;
+  color: rgba(255,255,255,0.75); /* Világosabb szöveg */
+  background: transparent;
+  padding: 0 20px;
+}
+
+/* LINK */
+.footer-inner a {
+  color: rgba(255,255,255,0.85); /* Világosabb link */
+  text-decoration: none;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.footer-inner a:hover {
+  color: #6fd3ff;
+  text-shadow:
+    0 0 6px rgba(111,211,255,0.6),
+    0 0 14px rgba(44,159,226,0.45);
+}
+
+/* ELVÁLASZTÓ */
+.footer-sep {
+  opacity: 0.6; /* Világosabb elválasztó */
+}
+
+/* ALAP STÍLUSOK MINDEN OLDALHOZ */
+body {
+  padding-bottom: 42px !important; /* Helyet biztosít a footer számára */
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Kontakt oldal speciális beállítás */
+.contactbody,
+.klimatelbody,
+.klimakarbody {
+  padding-bottom: 42px !important;
+}
+
+/* Contact oldal main rész magasság korrigálása */
+.contact-main {
+  min-height: calc(100vh - 80px - 42px) !important; /* Nav + Footer */
+}
+
+/* Klimatel oldal main rész magasság korrigálása */
+.klimatel-body {
+  height: calc(100vh - 80px - 42px) !important; /* Nav + Footer */
+}
+
+/* Klimakar oldal main rész magasság korrigálása */
+.klimakar-body {
+  min-height: calc(100vh - 80px - 42px) !important; /* Nav + Footer */
+}
+
+/* ================= MOBIL ================= */
+
+@media (max-width: 600px) {
+
+  
+  .footer-inner {
+    font-size: 0.75rem;
+    padding: 0 12px;
+    text-align: center;
+    flex-wrap: wrap;
+    height: 38px;
+  }
+  
+  body {
+    padding-bottom: 38px !important;
+  }
+  
+  .contact-main {
+    min-height: calc(100vh - 80px - 38px) !important;
+  }
+  
+  .klimatel-body {
+    height: calc(100vh - 80px - 38px) !important;
+  }
+  
+  .klimakar-body {
+    min-height: calc(100vh - 80px - 38px) !important;
+  }
+}
+
+/* ================= NAGYOBB KÉPERNYŐK - ARÁNYOS NÖVELÉS ================= */
+
+/* 1920x1080 (Full HD) */
+@media (min-width: 1920px) {
+  .footer-inner {
+    height: 50px;
+    font-size: 0.95rem;
+    gap: 12px;
+    letter-spacing: 0.5px;
+  }
+  
+  body {
+    padding-bottom: 50px !important;
+  }
+  
+  .contact-main {
+    min-height: calc(100vh - 100px - 50px) !important;
+  }
+  
+  .klimatel-body {
+    height: calc(100vh - 100px - 50px) !important;
+  }
+  
+  .klimakar-body {
+    min-height: calc(100vh - 100px - 50px) !important;
+  }
+  
+  .footer-inner a:hover {
+    text-shadow:
+      0 0 8px rgba(111,211,255,0.6),
+      0 0 16px rgba(44,159,226,0.45);
+  }
+}
+
+/* 2560x1440 (2K) */
+@media (min-width: 2560px) {
+  .footer-inner {
+    height: 58px;
+    font-size: 1.1rem;
+    gap: 14px;
+    letter-spacing: 0.6px;
+  }
+  
+  body {
+    padding-bottom: 58px !important;
+  }
+  
+  .contact-main {
+    min-height: calc(100vh - 120px - 58px) !important;
+  }
+  
+  .klimatel-body {
+    height: calc(100vh - 120px - 58px) !important;
+  }
+  
+  .klimakar-body {
+    min-height: calc(100vh - 120px - 58px) !important;
+  }
+  
+  .footer-inner a {
+    color: rgba(255,255,255,0.9);
+  }
+  
+  .footer-inner a:hover {
+    text-shadow:
+      0 0 10px rgba(111,211,255,0.6),
+      0 0 18px rgba(44,159,226,0.45);
+  }
+}
+
+/* 3440x1440 (UltraWide) */
+@media (min-width: 3440px) {
+  .footer-inner {
+    height: 66px;
+    font-size: 1.25rem;
+    gap: 16px;
+    letter-spacing: 0.7px;
+  }
+  
+  body {
+    padding-bottom: 66px !important;
+  }
+  
+  .contact-main {
+    min-height: calc(100vh - 140px - 66px) !important;
+  }
+  
+  .klimatel-body {
+    height: calc(100vh - 140px - 66px) !important;
+  }
+  
+  .klimakar-body {
+    min-height: calc(100vh - 140px - 66px) !important;
+  }
+  
+  .footer-inner span,
+  .footer-inner a {
+    color: rgba(255,255,255,0.95);
+  }
+  
+  .footer-inner a:hover {
+    text-shadow:
+      0 0 12px rgba(111,211,255,0.6),
+      0 0 20px rgba(44,159,226,0.45);
+  }
+}
+
+/* 4K és nagyobb (3840px+) */
+@media (min-width: 3840px) {
+  .footer-inner {
+    height: 74px;
+    font-size: 1.4rem;
+    gap: 18px;
+    letter-spacing: 0.8px;
+  }
+  
+  body {
+    padding-bottom: 74px !important;
+  }
+  
+  .contact-main {
+    min-height: calc(100vh - 160px - 74px) !important;
+  }
+  
+  .klimatel-body {
+    height: calc(100vh - 160px - 74px) !important;
+  }
+  
+  .klimakar-body {
+    min-height: calc(100vh - 160px - 74px) !important;
+  }
+  
+  .footer-inner span,
+  .footer-inner a {
+    color: rgba(255,255,255,0.98);
+  }
+  
+  .footer-inner a:hover {
+    text-shadow:
+      0 0 14px rgba(111,211,255,0.6),
+      0 0 22px rgba(44,159,226,0.45);
+  }
+}
+
+/* Extra nagy UltraWide (5120px+) */
+@media (min-width: 5120px) {
+  .footer-inner {
+    height: 82px;
+    font-size: 1.55rem;
+    gap: 20px;
+    letter-spacing: 0.9px;
+  }
+  
+  body {
+    padding-bottom: 82px !important;
+  }
+  
+  .contact-main {
+    min-height: calc(100vh - 180px - 82px) !important;
+  }
+  
+  .klimatel-body {
+    height: calc(100vh - 180px - 82px) !important;
+  }
+  
+  .klimakar-body {
+    min-height: calc(100vh - 180px - 82px) !important;
+  }
+  
+  .footer-inner a:hover {
+    text-shadow:
+      0 0 16px rgba(111,211,255,0.6),
+      0 0 24px rgba(44,159,226,0.45);
+  }
+}
+
+/* Tabletek (601px - 900px) */
+@media (min-width: 601px) and (max-width: 900px) {
+  .footer-inner {
+    font-size: 0.85rem;
+    height: 44px;
+    gap: 10px;
+  }
+  
+  body {
+    padding-bottom: 44px !important;
+  }
+  
+  .contact-main {
+    min-height: calc(100vh - 80px - 44px) !important;
+  }
+  
+  .klimatel-body {
+    height: calc(100vh - 80px - 44px) !important;
+  }
+  
+  .klimakar-body {
+    min-height: calc(100vh - 80px - 44px) !important;
+  }
+}
+
+/* Közepes képernyők (901px - 1200px) */
+@media (min-width: 901px) and (max-width: 1200px) {
+  .footer-inner {
+    font-size: 0.9rem;
+    height: 46px;
+    gap: 11px;
+  }
+  
+  body {
+    padding-bottom: 46px !important;
+  }
+  
+  .contact-main {
+    min-height: calc(100vh - 80px - 46px) !important;
+  }
+  
+  .klimatel-body {
+    height: calc(100vh - 80px - 46px) !important;
+  }
+  
+  .klimakar-body {
+    min-height: calc(100vh - 80px - 46px) !important;
+  }
+}
+
+/* Nagy asztali (1201px - 1919px) */
+@media (min-width: 1201px) and (max-width: 1919px) {
+  .footer-inner {
+    font-size: 0.92rem;
+    height: 48px;
+    gap: 11px;
+  }
+  
+  body {
+    padding-bottom: 48px !important;
+  }
+  
+  .contact-main {
+    min-height: calc(100vh - 80px - 48px) !important;
+  }
+  
+  .klimatel-body {
+    height: calc(100vh - 80px - 48px) !important;
+  }
+  
+  .klimakar-body {
+    min-height: calc(100vh - 80px - 48px) !important;
+  }
+}
+
+/* Extra kicsi mobilos optimalizálás (400px alatt) */
+@media (max-width: 400px) {
+  .footer-inner {
+    font-size: 0.7rem;
+    padding: 0 8px;
+    height: 36px;
+    gap: 8px;
+  }
+  
+  body {
+    padding-bottom: 36px !important;
+  }
+  
+  .contact-main {
+    min-height: calc(100vh - 80px - 36px) !important;
+  }
+  
+  .klimatel-body {
+    height: calc(100vh - 80px - 36px) !important;
+  }
+  
+  .klimakar-body {
+    min-height: calc(100vh - 80px - 36px) !important;
+  }
+  
+  .footer-sep {
+    display: none;
+  }
+  
+  .footer-inner span,
+  .footer-inner a {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin: 2px 0;
+  }
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 900px) {
+  .desktop { display: none; }
+  .hamburger { display: flex; }
+
+  .text {
+    padding: 0 24px;
+    align-items: center;
+    text-align: center;
+  }
+
+  .btns {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .text h1 { font-size: 3.4rem; }
+  .text h2 { font-size: 2rem; }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+    text-align: center;
+  }
+
+  .klimatel-container{
+
+    flex-direction: column-reverse;
+  }
+}
+
+
+
+
